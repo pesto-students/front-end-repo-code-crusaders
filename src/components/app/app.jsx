@@ -4,7 +4,6 @@ import { Login } from '../../pages/login';
 import { Register } from '../../pages/register';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
-import Styles from './app.module.scss';
 
 function App() {
 	return (
@@ -27,8 +26,8 @@ function App() {
 }
 
 const Layout = ({ children }) => (
-	<div className={Styles.mainContainer}>
-		<div className={Styles.contentContainer}>{children}</div>
+	<div className="">
+		<div className="">{children}</div>
 	</div>
 );
 

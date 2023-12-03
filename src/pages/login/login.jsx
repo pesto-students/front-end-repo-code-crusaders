@@ -39,7 +39,7 @@ export const Login = () => {
 			<form onSubmit={signinUser}>
 				<div>
 					<h1>Sign In</h1>
-					<p className='mt-4 mb-8'>
+					<p className='mt-4 mb-8 text-lime-700'>
             If you don't have an account <br />
             You can{' '}
 						<Link to='/register' className='link'>
