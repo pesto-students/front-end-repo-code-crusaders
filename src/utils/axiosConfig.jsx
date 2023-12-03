@@ -22,8 +22,8 @@ export const apiErrorResponse = (error) => {
 };
 
 const instance = axios.create({
-	baseURL: 'http://localhost:3000',
-	withCredentials: true
+	baseURL: 'https://dentibridge-be.onrender.com',
+	withCredentials: true,
 });
 
 instance.interceptors.request.use(
@@ -55,7 +55,9 @@ instance.interceptors.response.use((response) => {
 				calledOnce = true;
 
 				try {
-					const refreshData = await instance.get('/refresh_token/verify');
+					const refreshData = await (await instance.post('/v1/auth/refresh-tokens')).data({
+						refreshToken: '',
+					});
 
 					if (refreshData) {
 						const { user } = store.getState().auth;

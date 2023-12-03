@@ -7,12 +7,18 @@ const userAccessToken = localStorage.getItem('userAccessToken')
 	? localStorage.getItem('userAccessToken')
 	: null;
 
+const userRefreshToken = localStorage.getItem('userRefreshToken')
+	? localStorage.getItem('userRefreshToken')
+	: null;
+
 const initialState = {
 	loading: false,
 	user: null,
 	accessToken: userAccessToken,
+	refreshToken: userRefreshToken,
 	error: null,
 	success: false,
+	roles: [],
 };
 
 const authSlice = createSlice({
@@ -21,9 +27,11 @@ const authSlice = createSlice({
 	reducers: {
 		setCredentials: (state, action) => {
 			state.user = action.payload.user;
-			state.accessToken = action.payload.access_token;
+			state.accessToken = action.payload.tokens.access.token;
+			state.refreshToken = action.payload.tokens.refresh.token;
 
-			localStorage.setItem('userAccessToken', action.payload.access_token);
+			localStorage.setItem('userAccessToken', action.payload.tokens.access.token);
+			localStorage.setItem('userRefreshToken', action.payload.tokens.refresh.token);
 		}
 	},
 	extraReducers: {
@@ -32,7 +40,8 @@ const authSlice = createSlice({
 		},
 		[registerUser.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.user = action.payload.message;
+			state.user = action.payload.user;
+			state.roles = [action.payload.user.role];
 			state.error = null;
 			state.success = true;
 		},
@@ -47,8 +56,10 @@ const authSlice = createSlice({
 		[loginUser.fulfilled]: (state, action) => {
 			state.loading = false;
 			state.user = action.payload.user;
-			state.accessToken = action.payload.access_token;
-			localStorage.setItem('userAccessToken', action.payload.access_token);
+			state.accessToken = action.payload.tokens.access.token;
+			state.refreshToken = action.payload.tokens.refresh.token;
+			localStorage.setItem('userAccessToken', action.payload.tokens.access.token);
+			localStorage.setItem('userRefreshToken', action.payload.tokens.refresh.token);
 			state.error = null;
 		},
 		[loginUser.rejected]: (state, action) => {
@@ -63,7 +74,9 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.user = null;
 			state.accessToken = null;
+			state.refreshToken = null;
 			localStorage.removeItem('userAccessToken');
+			localStorage.removeItem('userRefreshToken');
 			state.success = true;
 			state.error = null;
 		},
@@ -77,7 +90,7 @@ const authSlice = createSlice({
 		},
 		[verifyUserDetails.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.user = action.payload.user_details;
+			state.user = action.payload.user;
 			state.error = null;
 		},
 		[verifyUserDetails.rejected]: (state) => {

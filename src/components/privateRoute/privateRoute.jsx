@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Navbar } from '../navbar';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
@@ -9,9 +9,12 @@ const PrivateRoute = ({ component: Component, ...props }) => {
 		<>
 			<Navbar />
 			{
-				!user
-					? <Navigate to={{ pathname: '/login', state: { from: props.location } }} replace />
-					: <Component {...props} />
+				// eslint-disable-next-line no-nested-ternary
+				user?.roles.find((role) => props?.allowedRoles?.includes(role))
+					? <Outlet />
+					: user?.id
+						? <Navigate to={{ pathname: '/login', state: { from: props.location } }} replace />
+						: <Component {...props} />
 			}
 		</>
 	);
