@@ -5,6 +5,9 @@ import { Navbar } from './navbar';
 import { Doctor } from './doctor';
 import { Lab } from './lab';
 import { States } from './states';
+import { Testimony } from './testimony';
+import { ContectUs } from './contactUs';
+import { FooterComp } from './footer';
 import Navlogo from '../../assets/logo/nav_logo_white.png';
 
 const {
@@ -26,17 +29,7 @@ const contentStyle = {
 	color: '#fff',
 	backgroundColor: '#E5E5EF',
 };
-// const siderStyle = {
-// 	textAlign: 'center',
-// 	lineHeight: '120px',
-// 	color: '#fff',
-// 	backgroundColor: '#3ba0e9',
-// };
-const footerStyle = {
-	textAlign: 'center',
-	color: '#fff',
-	backgroundColor: '#7dbcea',
-};
+
 const Landing = () => {
 	return (
 		<Space
@@ -65,11 +58,12 @@ const Landing = () => {
 
 					{/* about us section --- */}
 					<States />
-					<div>
-						testimony
-					</div>
+					<Testimony />
+					<ContectUs />
 				</Content>
-				<Footer style={footerStyle}>Footer</Footer>
+				<Footer className='bg-[#E5E5EF] p-0'>
+					<FooterComp />
+				</Footer>
 			</Layout>
 		</Space>
 	);
