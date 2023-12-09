@@ -21,8 +21,8 @@ export const States = () => {
 						<path
 							d='M1.35986 0.948242V28.1636'
 							stroke='#C6C6C6'
-							stroke-linecap='round'
-							stroke-linejoin='round'
+							strokeLinecap='round'
+							strokeLinejoin='round'
 						/>
 					</svg>
 				</div>
@@ -43,8 +43,8 @@ export const States = () => {
 						<path
 							d='M1.35986 0.948242V28.1636'
 							stroke='#C6C6C6'
-							stroke-linecap='round'
-							stroke-linejoin='round'
+							strokeLinecap='round'
+							strokeLinejoin='round'
 						/>
 					</svg>
 				</div>

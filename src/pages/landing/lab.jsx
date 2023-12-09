@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Button } from './button';
+import { useNavigate } from 'react-router';
 import './style.css';
 import FluidLine from '../../assets/landingPage/fluied_line.png';
 import Glass from '../../assets/landingPage/glass.png';
@@ -8,6 +8,8 @@ import Stethoscope from '../../assets/landingPage/stathoscope.png';
 import LabLayer from '../../assets/landingPage/lab_layer.png';
 
 export const Lab = () => {
+	const navigate = useNavigate();
+
 	return (
 		<div className='flex w-full h-auto'>
 			<div className='flex justify-between w-7/12 my-10'>
@@ -50,12 +52,12 @@ export const Lab = () => {
 				</p>
 				<div className='mx-auto my-5 w-2/3'>
 					<button
-						className='landing-button h-10 p-auto px-5 text-black font-bold text-xl text-center align-middle
+						className='bg-[#1A2F4E] h-10 p-auto px-5 text-white font-bold text-xl text-center align-middle
 		rounded-full border-black-2'
+						onClick={() => navigate('/register/lab')}
 					>
             Lab Sign-up
 					</button>
-					{/* <Button text='Doctor Sign-up' className='mx-auto my-5 w-2/3 text-2xl' /> */}
 				</div>
 			</div>
 		</div>

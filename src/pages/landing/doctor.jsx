@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Button } from './button';
+import { useNavigate } from 'react-router';
 import './style.css';
 import FluidLine from '../../assets/landingPage/fluied_line.png';
 import Glass from '../../assets/landingPage/glass.png';
@@ -8,6 +8,8 @@ import Stethoscope from '../../assets/landingPage/stathoscope.png';
 import DoctorLayer from '../../assets/landingPage/doctor_layer.png';
 
 export const Doctor = () => {
+	const navigate = useNavigate();
+
 	return (
 		<div className='flex w-full h-auto'>
 			<div className='text-black w-5/12 flex flex-col justify-end text-start'>
@@ -19,8 +21,9 @@ export const Doctor = () => {
 				</p>
 				<div className='mx-auto my-5 w-2/3'>
 					<button
-						className='landing-button h-10 p-auto px-5 text-black font-bold text-xl text-center align-middle
+						className='bg-[#1A2F4E] h-10 p-auto px-5 text-white font-bold text-xl text-center align-middle
 		rounded-full border-black-2'
+						onClick={() => navigate('/register/doctor')}
 					>
             Doctor Sign-up
 					</button>
@@ -48,7 +51,11 @@ export const Doctor = () => {
 								<img src={Star} alt='glass' />
 							</div>
 							<div className='relative w-full'>
-								<img src={FluidLine} alt='glass' className='absolute right-10 h-56 w-96' />
+								<img
+									src={FluidLine}
+									alt='glass'
+									className='absolute right-10 h-56 w-96'
+								/>
 							</div>
 						</div>
 					</div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
-import { Button } from './button';
+import { useNavigate } from 'react-router';
 import { Navbar } from './navbar';
 import { Doctor } from './doctor';
 import { Lab } from './lab';
@@ -31,6 +31,8 @@ const contentStyle = {
 };
 
 const Landing = () => {
+	const navigate = useNavigate();
+
 	return (
 		<Space
 			direction='vertical'
@@ -45,8 +47,26 @@ const Landing = () => {
 						<img src={Navlogo} alt='DentiBridge' />
 					</div>
 					<div className='flex flex-row'>
-						<Button className='mx-3' text='Doctor Login' />
-						<Button className='mx-3' text='Lab Login' />
+						<div className='mx-3'>
+							<button
+								className='landing-button h-10 p-auto px-5 text-black font-bold text-xl text-center align-middle
+							rounded-full border-black-2'
+								onClick={() => navigate('/login')}
+							>
+                Doctor Login
+							</button>
+						</div>
+						<div className='mx-3'>
+							<button
+								className='landing-button h-10 p-auto px-5 text-black font-bold text-xl text-center align-middle
+							rounded-full border-black-2'
+								onClick={() => navigate('/login', {})}
+							>
+                Lab Login
+							</button>
+						</div>
+						{/* <Button className='mx-3' text='Doctor Login' /> */}
+						{/* <Button className='mx-3' text='Lab Login' /> */}
 					</div>
 				</Header>
 				<Content style={contentStyle}>

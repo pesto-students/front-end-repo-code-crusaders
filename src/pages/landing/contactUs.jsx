@@ -85,7 +85,7 @@ export const ContectUs = () => {
 									]}
 								>
 									<Input
-										placeHolder='Email'
+										placeholder='Email'
 										className='border-2 border-black rounded-full p-2'
 									/>
 								</Form.Item>
