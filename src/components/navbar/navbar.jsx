@@ -6,7 +6,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { logoutUser, verifyUserDetails } from '../../store/auth/authActions';
 import Logo from '../../assets/logo/nav_logo_white.png';
 
-const Navbar = ({ visible }) => {
+const Navbar = ({ visible = true }) => {
 	const dispatch = useDispatch();
 	const { user, accessToken } = useSelector((state) => state.auth);
 
@@ -37,9 +37,11 @@ const Navbar = ({ visible }) => {
 
 	const items = [
 		{
-			label: 'Navigation Three - Submenu',
+			label: (
+				<UserOutlined className='text-white' style={{ fontSize: '28px' }}/>
+			),
 			key: 'SubMenu',
-			icon: <UserOutlined />,
+			// icon: <UserOutlined />,
 			children: [
 				{
 					type: 'group',
@@ -69,7 +71,7 @@ const Navbar = ({ visible }) => {
                     Logout
 								</NavLink>
 							),
-							key: 'policy:4',
+							key: 'logout:4',
 						},
 					],
 				},
@@ -79,40 +81,24 @@ const Navbar = ({ visible }) => {
 
 	return (
 		<header className='bg-[#1A2F4E]'>
-			{/* <div>
-				<span>
-					{user ? `Logged in as ${user.email}` : "You're not logged in"}
-				</span>
-				<div>
-					{user ? (
-						<NavLink onClick={logoutHandler}>
-              Logout
-						</NavLink>
-					) : (
-						<NavLink to='/login'>
-              Login
-						</NavLink>
-					)}
-				</div>
-			</div>
-			<nav>
-				<ul>
-					<li><NavLink to='/'>Home</NavLink></li>
-				</ul>
-			</nav> */}
-			<div className='container'>
-				<div className='flex'>
+			<div className='container h-16  m-auto flex flex-row justify-between'>
+				<div className='flex flex-row justify-between'>
 
-					<div>
+					<div className='h-auto w-52 align-middle m-auto'>
 						<img src={Logo} alt="Dentibridge" />
 					</div>
-					<div>
-						<NavLink to='/home' />
-						<NavLink to='/labs' />
+					<div className='m-auto mx-10 '>
+						<NavLink to='/home' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Home </NavLink>
+						<NavLink to='/labs' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Labs </NavLink>
 					</div>
 				</div>
-				<div>
-					return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+				<div className='h-full flex flex-row justify-between'>
+					<Menu
+						onClick={onClick}
+						selectedKeys={[current]}
+						mode="horizontal"
+						items={items}
+						className='m-auto align-middle bg-[#1A2F4E] '/>;
 				</div>
 			</div>
 		</header>
