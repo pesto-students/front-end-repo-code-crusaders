@@ -18,7 +18,7 @@ function App() {
 				<Routes>
 					{/* private Route */}
 					<Route path='/home' exact
-						element={<PublicRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
+						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
 
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />

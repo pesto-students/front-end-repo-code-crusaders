@@ -56,7 +56,7 @@ instance.interceptors.response.use((response) => {
 
 				try {
 					const refreshData = await (await instance.post('/v1/auth/refresh-tokens')).data({
-						refreshToken: '',
+						refreshToken: localStorage.getItem('userRefreshToken'),
 					});
 
 					if (refreshData) {
@@ -65,7 +65,8 @@ instance.interceptors.response.use((response) => {
 
 						store.dispatch(setCredentials({
 							user,
-							access_token: refreshData.data.access_token
+							accessToken: refreshData.data.access.token,
+							refreshToken: refreshData.data.refresh.token
 						}));
 
 						return instance(originalRequest);

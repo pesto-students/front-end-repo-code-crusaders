@@ -53,9 +53,9 @@ export const loginUser = createAsyncThunk('user/login', async ({
 	}
 });
 
-export const verifyUserDetails = createAsyncThunk('user/verify', async (_, { rejectWithValue }) => {
+export const verifyUserDetails = createAsyncThunk('/user/verify', async (_, { rejectWithValue }) => {
 	try {
-		const response = await axiosConfig.get('/verify');
+		const response = await axiosConfig.get('/v1/auth/verify');
 
 		return await response.data;
 	} catch (error) {
@@ -67,7 +67,9 @@ export const verifyUserDetails = createAsyncThunk('user/verify', async (_, { rej
 
 export const logoutUser = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
 	try {
-		const response = await axiosConfig.get('/v1/auth/logout');
+		const response = await axiosConfig.post('/v1/auth/logout', {
+			refreshToken: localStorage.getItem('userRefreshToken'),
+		});
 
 		return response.data.message;
 	} catch (error) {
