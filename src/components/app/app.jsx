@@ -17,20 +17,24 @@ function App() {
 			<Layout>
 				<Routes>
 					{/* private Route */}
-					<Route path='/home' element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
+					<Route path='/home' exact
+						element={<PublicRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
+
+					<Route path='/dashboard'
+						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
 
 					{/* public Route */}
-					<Route path='/' element={<PublicRoute component={Landing} />} />
+					<Route exact path='/' element={<Landing />} />
 					<Route
-						path='/login'
+						path='/login' exact
 						element={<PublicRoute restricted={true} component={Login} />}
 					/>
 					<Route
-						path='/register/doctor'
+						path='/register/doctor' exact
 						element={<PublicRoute restricted={true} component={Register} />}
 					/>
 					<Route
-						path='/register/lab'
+						path='/register/lab' exact
 						element={<PublicRoute restricted={true} component={Register} />}
 					/>
 				</Routes>

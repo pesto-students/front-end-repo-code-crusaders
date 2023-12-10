@@ -42,9 +42,9 @@ export const loginUser = createAsyncThunk('user/login', async ({
 }, { rejectWithValue }) => {
 	try {
 		const response = await axiosConfig.post('/v1/auth/login', {
-			email, password
+			email: 'dkhno389@gmail.com', password: 'Test@123'
 		});
-
+		console.log(email, password);
 		return await response.data;
 	} catch (error) {
 		return rejectWithValue({

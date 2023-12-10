@@ -1,4 +1,8 @@
 const Home = () => {
-	return <h1>Home Component</h1>;
+	return (<>
+		<div>
+			<h1> Hello Doctor !</h1>
+		</div>
+	</>);
 };
 export { Home };

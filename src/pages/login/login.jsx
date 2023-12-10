@@ -12,9 +12,16 @@ export const Login = () => {
 	let email = useRef('');
 	let password = useRef('');
 
+	console.log('get user', user);
 	useEffect(() => {
+		console.log('user', user);
 		if (user) {
-			navigate('/', { successLogin: true });
+			console.log(user);
+			if (user.role === 'doctor') {
+				navigate('/home', { successLogin: true });
+			} else if (user.role === 'lab') {
+				navigate('/dashboard', { successLogin: true });
+			}
 		}
 	}, [navigate, user]);
 

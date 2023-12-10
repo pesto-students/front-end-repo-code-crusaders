@@ -1,20 +1,24 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
-import { Navbar } from '../navbar';
+import { Navigate } from 'react-router-dom';
+// import { Navbar } from '../navbar';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
 	const { user } = useSelector((state) => state.auth);
 
+	console.log('Private route', user);
+
 	return (
 		<>
-			<Navbar />
+			{/* <Navbar /> */}
 			{
-				// eslint-disable-next-line no-nested-ternary
-				user?.roles.find((role) => props?.allowedRoles?.includes(role))
-					? <Outlet />
-					: user?.id
-						? <Navigate to={{ pathname: '/login', state: { from: props.location } }} replace />
-						: <Component {...props} />
+				!user || !props?.allowedRoles?.includes(user?.role) ? (
+					<Navigate
+						to={{ pathname: '/login', state: { from: props.location } }}
+						replace
+					/>
+				) : (
+					<Component {...props} />
+				)
 			}
 		</>
 	);
