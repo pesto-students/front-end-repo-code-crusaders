@@ -3,6 +3,7 @@ import { Home } from '../../pages/home';
 import { Landing } from '../../pages/landing';
 import { Login } from '../../pages/login';
 import { Register } from '../../pages/register';
+import { LabOrder } from '../../pages/labOrder';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 
@@ -32,6 +33,10 @@ function App() {
 					<Route
 						path='/register/doctor' exact
 						element={<PublicRoute restricted={true} component={Register} />}
+					/>
+					<Route
+						path ='/lab/orders' exact
+						element={<PublicRoute restricted={true} component={LabOrder} /> }
 					/>
 					<Route
 						path='/register/lab' exact
