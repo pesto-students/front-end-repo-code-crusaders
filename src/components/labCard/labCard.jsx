@@ -1,14 +1,51 @@
-import { Card } from 'antd';
+import React from 'react';
+// import {
+// 	EditOutlined,
+// 	EllipsisOutlined,
+// 	SettingOutlined,
+// } from '@ant-design/icons';
+import { LocationOn } from '@mui/icons-material';
+import { Card, Rate } from 'antd';
 
-const LabCard = () => {
+const { Meta } = Card;
+
+const LabCard = ({ lab, className }) => {
+	console.log('Lab Card prop', lab);
 	return (
-		<>
-			<Card title='Card title' bordered={false} style={{ width: 300 }}>
-				<p>Card content</p>
-				<p>Card content</p>
-				<p>Card content</p>
-			</Card>
-		</>
+		<Card
+			className={`border-2 w-80 p-2 shadow-2xl ${className}`}
+			cover={
+				<img
+					alt='example'
+					src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+				/>
+			}
+			actions={[
+				// <SettingOutlined key='setting' />,
+				// <EditOutlined key='edit' />,
+				<div key='view' className='text-left mx-5'><button className=' text-black bg-white docButton'>
+					View Lab
+				</button> </div>,
+				// <EllipsisOutlined key='ellipsis' />,
+			]}
+		>
+			<Meta
+				// avatar={
+				// 	<Avatar src='https://xsgames.co/randomusers/avatar.php?g=pixel' />
+				// }
+				title={lab.name}
+			/>
+			<div className='flex my-2 text-lg'>
+				<LocationOn />
+				<p> {lab.distance} KM, </p>
+        &nbsp;
+				<p> {lab.city} </p>
+			</div>
+			<div>
+				<Rate allowHalf={true} defaultValue={lab.rating} disabled className=''/>
+				<span> {parseFloat(lab.rating).toFixed(1)} </span>
+			</div>
+		</Card>
 	);
 };
 
