@@ -16,7 +16,6 @@ export const Login = () => {
 	useEffect(() => {
 		console.log('user', user);
 		if (user) {
-			console.log(user);
 			if (user.role === 'doctor') {
 				navigate('/home', { successLogin: true });
 			} else if (user.role === 'lab') {

@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-// import { Navbar } from '../navbar';
+import { Navbar } from '../navbar';
 
 const PrivateRoute = ({ component: Component, ...props }) => {
 	const { user } = useSelector((state) => state.auth);
@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...props }) => {
 
 	return (
 		<>
-			{/* <Navbar /> */}
+			<Navbar visible={false} />
 			{
 				!user || !props?.allowedRoles?.includes(user?.role) ? (
 					<Navigate

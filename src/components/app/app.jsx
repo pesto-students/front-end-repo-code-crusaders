@@ -1,10 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
-import { Home } from '../../pages/home';
-import { Landing } from '../../pages/landing';
-import { Login } from '../../pages/login';
-import { Register } from '../../pages/register';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
+import {
+	Labs, Login, Landing, Register, Home, NotFound
+} from '../../pages';
 
 const ROLES = {
 	Doctor: 'doctor',
@@ -17,9 +16,8 @@ function App() {
 			<Layout>
 				<Routes>
 					{/* private Route */}
-					<Route path='/home' exact
-						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
-
+					<Route path='/home' exact element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
+					<Route path='/labs' element={<PrivateRoute component={Labs} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
 
@@ -37,6 +35,7 @@ function App() {
 						path='/register/lab' exact
 						element={<PublicRoute restricted={true} component={Register} />}
 					/>
+					<Route path='*' element={<NotFound />} />
 				</Routes>
 			</Layout>
 		</div>

@@ -1,8 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { Loading3QuartersOutlined } from '@ant-design/icons';
 import { Navbar } from '../navbar';
-import BgLogo from '../../assets/logo/bg_logo.png';
+import { LoadingPage } from '../../pages';
 
 export const PublicRoute = ({ component: Component, ...props }) => {
 	const { user, loading } = useSelector((state) => state.auth);
@@ -10,16 +9,7 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 	console.log('public route', user);
 
 	if (loading) {
-		return (
-			<div className='bg-[#CCD6E5] flex flex-col justify-center items-center h-screen'>
-				<div>
-					<img src={BgLogo} alt="Dentibridge" />
-				</div>
-				<div>
-					<Loading3QuartersOutlined spin/> Loading...
-				</div>
-			</div>
-		);
+		return <LoadingPage />;
 	}
 
 	return (
