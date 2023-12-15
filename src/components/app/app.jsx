@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 import {
-	Labs, Login, Landing, Register, Home, NotFound
+	Labs, Login, Landing, Register, Home, NotFound, Lab
 } from '../../pages';
 
 const ROLES = {
@@ -16,8 +16,10 @@ function App() {
 			<Layout>
 				<Routes>
 					{/* private Route */}
+					<Route path='/lab' element={<Lab/>} />
 					<Route path='/home' exact element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
-					<Route path='/labs' element={<PrivateRoute component={Labs} allowedRoles={[ROLES.Doctor]} />} />
+					<Route path='/labs' element={<PrivateRoute component={Labs} allowedRoles={[ROLES.Doctor]} />} >
+					</Route>
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
 

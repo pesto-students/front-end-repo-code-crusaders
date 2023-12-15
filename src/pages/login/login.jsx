@@ -12,7 +12,6 @@ export const Login = () => {
 	let email = useRef('');
 	let password = useRef('');
 
-	console.log('get user', user);
 	useEffect(() => {
 		console.log('user', user);
 		if (user) {

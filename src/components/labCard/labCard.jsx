@@ -4,13 +4,15 @@ import React from 'react';
 // 	EllipsisOutlined,
 // 	SettingOutlined,
 // } from '@ant-design/icons';
+import { useNavigate, Outlet } from 'react-router';
 import { LocationOn } from '@mui/icons-material';
 import { Card, Rate } from 'antd';
 
 const { Meta } = Card;
 
-const LabCard = ({ lab, className }) => {
-	console.log('Lab Card prop', lab);
+const LabCard = ({ lab, className, index }) => {
+	const navigate = useNavigate();
+	console.log('Lab Card prop', index);
 	return (
 		<Card
 			className={`border-2 w-80 p-2 shadow-2xl ${className}`}
@@ -23,9 +25,12 @@ const LabCard = ({ lab, className }) => {
 			actions={[
 				// <SettingOutlined key='setting' />,
 				// <EditOutlined key='edit' />,
-				<div key='view' className='text-left mx-5'><button className=' text-black bg-white docButton'>
+				<div key='view' className='text-left mx-5'>
+					<button className=' text-black bg-white docButton'
+						onClick={() => navigate(`/labs/${index}`)}
+					>
 					View Lab
-				</button> </div>,
+					</button> </div>,
 				// <EllipsisOutlined key='ellipsis' />,
 			]}
 		>
@@ -45,6 +50,7 @@ const LabCard = ({ lab, className }) => {
 				<Rate allowHalf={true} defaultValue={lab.rating} disabled className=''/>
 				<span> {parseFloat(lab.rating).toFixed(1)} </span>
 			</div>
+			<Outlet />
 		</Card>
 	);
 };

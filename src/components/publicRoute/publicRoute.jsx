@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { Navbar } from '../navbar';
@@ -8,23 +9,25 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 
 	console.log('public route', user);
 
-	if (loading) {
-		return <LoadingPage />;
-	}
+	// if (loading) {
+	// 	return <LoadingPage />;
+	// }
 
 	return (
 		<>
 			<Navbar visible={false} />
 
 			{
-				// eslint-disable-next-line no-nested-ternary
-				user?.role === 'doctor' ? (
-					<Navigate to={{ pathname: '/home' }} />
-				) : user?.role === 'lab' ? (
-					<Navigate to={{ pathname: '/dashboard' }} />
-				) : (
-					<Component {...props} />
-				)}
+				loading ? <LoadingPage />
+					: (
+						user?.role === 'doctor' ? (
+							<Navigate to={{ pathname: '/home' }} />
+						) : user?.role === 'lab' ? (
+							<Navigate to={{ pathname: '/dashboard' }} />
+						) : (
+							<Component {...props} />
+						))
+			}
 		</>
 	);
 };

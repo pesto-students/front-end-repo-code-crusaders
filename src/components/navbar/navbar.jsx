@@ -8,17 +8,16 @@ import Logo from '../../assets/logo/nav_logo_white.png';
 
 const Navbar = ({ visible = true }) => {
 	const dispatch = useDispatch();
-	const { user, accessToken, error } = useSelector((state) => state.auth);
+	const {
+		user, accessToken, error, loading
+	} = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 
 	const [current, setCurrent] = useState('null');
 
 	const onClick = (e) => {
-		console.log('click ', e);
 		setCurrent(e.key);
 	};
-
-	console.log(user);
 
 	useEffect(() => {
 		if (accessToken) {
@@ -29,10 +28,11 @@ const Navbar = ({ visible = true }) => {
 	}, []);
 
 	useEffect(() => {
-		if (error && !user) {
+		if (error && !user && !loading) {
+			console.log('ITs GOIGN TO LOGIN');
 			navigate('/login');
 		}
-	}, [error, user, navigate]);
+	}, [error, user, navigate, loading]);
 
 	const logoutHandler = () => {
 		dispatch(logoutUser());

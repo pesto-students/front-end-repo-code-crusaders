@@ -54,7 +54,7 @@ const Labs = () => {
 			<div className=''></div>
 			<div className='container m-auto'>
 				<div className='flex px-10 flex-wrap'>
-					{labs && labs.map((lab, index) => <LabCard key={index} lab={lab} className='m-5'/>)}
+					{labs && labs.map((lab, index) => <LabCard key={index} lab={lab} index={index} className='m-5'/>)}
 				</div>
 			</div>
 		</div>
