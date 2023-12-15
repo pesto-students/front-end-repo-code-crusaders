@@ -1,7 +1,7 @@
 // import { useNavigate } from 'react-router';
 import { LocationOn, CurrencyRupee } from '@mui/icons-material';
 import {
-	Card, Rate, Input, Space
+	Card, Rate, Input
 } from 'antd';
 import { Navbar } from '../../components/navbar';
 
@@ -151,9 +151,6 @@ const Lab = () => {
 					<ProductCard service={service} />
 				</div>
 			</div>
-			<Space>
-
-			</Space>
 		</div>
 	);
 };
