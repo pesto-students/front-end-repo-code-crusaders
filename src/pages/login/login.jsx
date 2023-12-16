@@ -10,10 +10,8 @@ import {
 import { Toaster } from 'react-hot-toast';
 import { loginUser } from '../../store/auth/authActions';
 import { errorToast } from '../../utils';
-import SecondaryLogo from '../../assets/logo/Secondary-logo.png';
-import Logo from '../../assets/logo/logo.PNG';
-import Email from '../../assets/logo/Email.png';
-import Password from '../../assets/logo/Password.png';
+import SecondaryLogo from '../../assets/logo/secondary_logo.png';
+import Logo from '../../assets/logo/primary_logo.png';
 
 export const Login = () => {
 	const { user, loading } = useSelector((state) => state.auth);
@@ -88,7 +86,6 @@ export const Login = () => {
 							>
 								<Flex>
 									<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" />
-									<img src={Email} alt="Email Icon" className="w-7 h-7 self-center mr-2" />
 								</Flex>
 							</Form.Item>
 							<Form.Item
@@ -106,7 +103,6 @@ export const Login = () => {
 										type="password"
 										placeholder="Password"
 									/>
-									<img src = {Password} alt="Pasword Icon" className="w-7 h-7 self-center mr-2" />
 								</Flex>
 
 							</Form.Item>
@@ -124,7 +120,7 @@ export const Login = () => {
 								<Button type="primary" htmlType="submit" className="docButton">
           Log in
 								</Button>
-        Or <a href="">register now!</a>
+        Or <a href="/login">register now!</a>
 							</Form.Item>
 						</Form>
 					</div>
