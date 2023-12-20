@@ -40,7 +40,7 @@ function App() {
 					/>
 					<Route
 						path='/register/lab' exact
-						element={<PublicRoute restricted={true} component={Register} />}
+						element={<PublicRoute role={ROLES.Lab} component={Register} />}
 					/>
 					<Route path='*' element={<NotFound />} />
 				</Routes>

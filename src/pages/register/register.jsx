@@ -10,8 +10,8 @@ import {
 } from 'antd';
 import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '../../utils';
-import SecondaryLogo from '../../assets/logo/secondary_logo.png';
-import Logo from '../../assets/logo/primary_logo.png';
+import SecondaryLogo from '../../assets/logo/bg_logo.png';
+import Logo from '../../assets/logo/nav_logo_black.png';
 import { registerUser } from '../../store/auth/authActions';
 
 export const Register = () => {

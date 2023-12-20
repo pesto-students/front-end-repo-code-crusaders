@@ -10,10 +10,10 @@ import {
 import { Toaster } from 'react-hot-toast';
 import { loginUser } from '../../store/auth/authActions';
 import { errorToast } from '../../utils';
-import SecondaryLogo from '../../assets/logo/secondary_logo.png';
-import Logo from '../../assets/logo/primary_logo.png';
+import LabLogo from '../../assets/logo/bg_logo.png';
+import Logo from '../../assets/logo/nav_logo_black.png';
 
-export const Login = () => {
+export const Login = ({ role }) => {
 	const { user, loading } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -30,6 +30,14 @@ export const Login = () => {
 			}
 		}
 	}, [navigate, user]);
+
+	const navigateSignup = () => {
+		if (role === 'lab') {
+			navigate('/register/lab');
+		} else {
+			navigate('/register/doctor');
+		}
+	};
 
 	// const onFinish = () => {
 	// 	console.log('Received values of form: ');
@@ -56,15 +64,15 @@ export const Login = () => {
 
 	return (
 		<div className='w-full flex h-screen'>
-			<div className='w-2/5 flex items-center justify-center gap-10'>
-				<div className='flex flex-col p-20 items-start '>
-					<div className='flex flex-col p-10 p-x-20 items-center gap-10 align-stretch'>
-						<img src={Logo} alt="Main Logo" className='back-image object-cover'/>
+			<div className='w-2/5 flex items-center justify-center'>
+				<div className='flex flex-col items-center m-auto'>
+					<div className='w-1/2 p-10'>
+						<img src={Logo} alt="Main Logo" className=''/>
 					</div>
-					<div className="flex flex-col p-10 p-x-5 items-start gap-10">
+					<div className="flex flex-col w-1/2 px-10 items-start ">
 						<Form
 							name="normal_login"
-							className="login-form"
+							className="login-form w-full space-y-10"
 							initialValues={{
 								remember: true,
 							}}
@@ -78,114 +86,66 @@ export const Login = () => {
 										message: 'Please input your Email Address!',
 									},
 									{
-										type: 'email'
-									}
-								]}
-							>
-								<Flex>
-									<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" />
-								</Flex>
-							</Form.Item>
-							<Form.Item
-								name="password"
-								rules={[
-									{
-										required: true,
-										message: 'Please input your Password!',
+										type: 'email',
+										message: 'Please input valid Email Address!',
 									},
 								]}
+								className='w-full'
 							>
-								<Flex>
+								<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email Address" className='w-full text-lg' />
+							</Form.Item>
+
+							<div className=' w-full'>
+								<Form.Item
+									name="password"
+									rules={[
+										{
+											required: true,
+											message: 'Please input your Password!',
+										},
+									]}
+									className='m-0 w-full'
+								>
 									<Input.Password
 										prefix={<LockOutlined className="site-form-item-icon" />}
 										type="password"
 										placeholder="Password"
+										className='w-full text-lg'
 									/>
-								</Flex>
-
-							</Form.Item>
-							<Form.Item>
-								<Form.Item name="remember" valuePropName="checked" noStyle>
-									<Checkbox>Remember me</Checkbox>
 								</Form.Item>
+								<Form.Item className='flex justify-end w-full mb-0'>
+									<button className="login-form-forgot text-blue-600 underline ">
+									Forgot password
+									</button>
+								</Form.Item>
+							</div>
 
-								<a className="login-form-forgot" href="">
-          Forgot password
-								</a>
+							<Form.Item name="remember" valuePropName="checked" noStyle>
+								<Checkbox>Remember me</Checkbox>
 							</Form.Item>
 
-							<Form.Item>
-								<Button type="primary" htmlType="submit" className="docButton">
-          Log in
-								</Button>
-        Or <a href="/login">register now!</a>
+							<Form.Item className=''>
+								<div className='flex flex-col space-y-3'>
+									<Button type="primary" htmlType="submit" className="docButton"> Log in </Button>
+									<div className='flex w-full'>
+										<hr className='w-1/2 bg-gray-200 border-0 dark:bg-gray-700' />
+										<span className='font-semibold'> OR </span>
+										<hr className='w-1/2 bg-gray-200 border-0 dark:bg-gray-700' />
+									</div>
+									<Button className='docButton' onClick={navigateSignup}> Sign up </Button>
+								</div>
 							</Form.Item>
 						</Form>
 					</div>
 				</div>
 			</div>
-			<div className='w-3/5 flex items-center justify-center' style = {{ backgroundColor: '#CCD6E5' }}>
-				<div className=''>
-					<img src={SecondaryLogo}
+			<div className='w-3/5 flex items-center justify-center bg-[#CCD6E5]'>
+				<div>
+					<img src={LabLogo}
 						alt='Background Logo'
 						className='back-image object-cover h-full' />
 				</div>
-
 			</div>
 		</div>
-		// <section className='p-8'>
-		// 	<Toaster />
-		// 	<form onSubmit={signinUser}>
-		// 		<div>
-		// 			<h1>Sign In</h1>
-		// 			<p className='mt-4 mb-8 text-lime-700'>
-	//     If you don't have an account <br />
-	//     You can{' '}
-		// 				<Link to='/register/doctor' className='link'>
-	//       Register here !
-		// 				</Link>
-		// 			</p>
-		// 		</div>
-		// 		<div>
-		// 			<label className='block text-primary-grey text-[13px] font-medium pb-1'>
-	//     Email
-		// 			</label>
-		// 			<div className='relative'>
-		// 				<input
-		// 					className='inputField w-full mb-8'
-		// 					name='email'
-		// 					placeholder='Enter your email'
-		// 					id='email'
-		// 					ref={(e) => {
-		// 						email = e;
-		// 					}}
-		// 					type='email'
-		// 					required
-		// 				/>
-		// 			</div>
-		// 		</div>
-		// 		<div>
-		// 			<label className='block text-primary-grey text-[13px] font-medium pb-1'>
-	//     Password
-		// 			</label>
-		// 			<div className='relative'>
-		// 				<input
-		// 					className='inputField w-full mb-8'
-		// 					name='password'
-		// 					placeholder='Enter your password'
-		// 					id='password'
-		// 					ref={(e) => {
-		// 						password = e;
-		// 					}}
-		// 					type='password'
-		// 					required
-		// 				/>
-		// 			</div>
-		// 		</div>
-		// 		<button type='submit' className='primaryButton mt-4'>
-		// 			{loading ? 'Loading...' : 'Login'}
-		// 		</button>
-		// 	</form>
-		// </section>
 	);
 };
