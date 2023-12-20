@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { Navbar } from '../navbar';
@@ -12,6 +13,12 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 	// if (loading) {
 	// 	return <LoadingPage />;
 	// }
+
+	// useEffect(() => {
+	if (user && props.role !== user.role) {
+		localStorage.removeItem('dentiUser');
+	}
+	// }, [user]);
 
 	return (
 		<>

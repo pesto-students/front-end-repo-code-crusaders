@@ -31,6 +31,10 @@ function App() {
 						element={<PublicRoute restricted={true} component={Login} />}
 					/>
 					<Route
+						path='/lab/login' exact
+						element={<PublicRoute role={ROLES.Lab} component={Login} />}
+					/>
+					<Route
 						path='/register/doctor' exact
 						element={<PublicRoute restricted={true} component={Register} />}
 					/>
