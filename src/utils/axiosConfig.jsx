@@ -22,7 +22,7 @@ export const apiErrorResponse = (error) => {
 };
 
 const instance = axios.create({
-	baseURL: 'https://dentibridge-be.onrender.com',
+	baseURL: process.env.REACT_APP_BACKEND_URL,
 	withCredentials: true,
 });
 
@@ -50,14 +50,17 @@ instance.interceptors.response.use((response) => {
 	const originalRequest = error.config;
 
 	if (error.response !== null) {
-		if (error.response.status === 403 && !originalRequest._retry) {
+		if (error.response.status === 401 && !originalRequest._retry) {
 			if (!calledOnce) {
 				calledOnce = true;
 
+				localStorage.removeItem('userAccessToken');
+				console.log('Refresh token called');
+
 				try {
-					const refreshData = await (await instance.post('/v1/auth/refresh-tokens')).data({
+					const refreshData = await (await instance.post('/v1/auth/refresh-tokens', {
 						refreshToken: localStorage.getItem('userRefreshToken'),
-					});
+					}));
 
 					if (refreshData) {
 						const { user } = store.getState().auth;
@@ -73,6 +76,7 @@ instance.interceptors.response.use((response) => {
 					}
 				} catch (error) {
 					if (error.response && error.response.data) {
+						localStorage.removeItem('userRefreshToken');
 						return Promise.reject(error.response.data);
 					}
 

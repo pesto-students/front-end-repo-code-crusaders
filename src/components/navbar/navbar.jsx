@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logoutUser, verifyUserDetails } from '../../store/auth/authActions';
@@ -8,16 +8,16 @@ import Logo from '../../assets/logo/nav_logo_white.png';
 
 const Navbar = ({ visible = true }) => {
 	const dispatch = useDispatch();
-	const { user, accessToken } = useSelector((state) => state.auth);
+	const {
+		user, accessToken, error, loading
+	} = useSelector((state) => state.auth);
+	const navigate = useNavigate();
 
 	const [current, setCurrent] = useState('null');
 
 	const onClick = (e) => {
-		console.log('click ', e);
 		setCurrent(e.key);
 	};
-
-	console.log(user);
 
 	useEffect(() => {
 		if (accessToken) {
@@ -26,6 +26,13 @@ const Navbar = ({ visible = true }) => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	useEffect(() => {
+		if (error && !user && !loading) {
+			console.log('ITs GOIGN TO LOGIN');
+			navigate('/login');
+		}
+	}, [error, user, navigate, loading]);
 
 	const logoutHandler = () => {
 		dispatch(logoutUser());
