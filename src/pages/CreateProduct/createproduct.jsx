@@ -3,19 +3,19 @@
 import React from 'react';
 import axios from 'axios';
 // import { UploadButton } from '@uploadthing/react';
-import { useDropzone } from '@uploadthing/react/hooks';
-import { generateClientDropzoneAccept } from 'uploadthing/client';
+// import { useDropzone } from '@uploadthing/react/hooks';
+// import { generateClientDropzoneAccept } from 'uploadthing/client';
 import {
 	Button, Form, Input, Upload
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import {
-	// UploadButton,
-	// UploadDropzone,
-	useUploadThing,
-	uploadRouter,
-	uploadthingURL
-} from '../../utils/uploadthing';
+// import {
+// 	// UploadButton,
+// 	// UploadDropzone,
+// 	useUploadThing,
+// 	uploadRouter,
+// 	uploadthingURL
+// } from '../../utils/uploadthing';
 import { Navbar } from '../../components/navbar';
 import axiosConfig from '../../utils/axiosConfig';
 // const { Option } = Select;
