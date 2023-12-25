@@ -99,6 +99,7 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.user = action.payload.user;
 			state.error = null;
+			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
 		},
 		[verifyUserDetails.rejected]: (state) => {
 			state.loading = false;
