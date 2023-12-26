@@ -6,7 +6,7 @@ import {
 const initialState = {
 	loading: false,
 	labs: [],
-	product: {},
+	products: [],
 	error: null,
 	success: false,
 };
@@ -18,13 +18,12 @@ const authSlice = createSlice({
 
 	},
 	extraReducers: {
-
 		[getProducts.pending]: (state) => {
 			state.loading = true;
 		},
 		[getProducts.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.labs = [...state.labs, ...action.payload.labs];
+			state.products = [...state.products, ...action.payload.products];
 			state.error = null;
 		},
 		[getProducts.rejected]: (state, action) => {

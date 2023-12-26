@@ -1,8 +1,11 @@
 // import { useNavigate } from 'react-router';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { LocationOn, CurrencyRupee } from '@mui/icons-material';
 import {
 	Card, Rate, Input
 } from 'antd';
+import { getProducts } from '../../store/products/productActions';
 import { Navbar } from '../../components/navbar';
 
 const { Meta } = Card;
@@ -112,6 +115,9 @@ const services = [
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const Lab = () => {
+	const dispatch = useDispatch();
+	const { products } = useSelector((state) => state.product);
+
 	const lab = {
 		name: 'Dentalline Laboratory',
 		city: 'surat',
@@ -119,12 +125,19 @@ const Lab = () => {
 		rating: 4.2,
 	};
 
-	const service = {
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000'
-	};
+	// const service = {
+	// 	title: 'Precious (Silver)',
+	// 	description: 'Get precious Silver teeth cover',
+	// 	rating: 4.5,
+	// 	price: '2000'
+	// };
+
+	React.useEffect(() => {
+		console.log('product', products);
+		if (products.length === 0) {
+			dispatch(getProducts({ lab: '658997951317adbabc1f611c' }));
+		}
+	}, [dispatch, products]);
 
 	return (
 		<div>
@@ -145,10 +158,10 @@ const Lab = () => {
 				/>
 				<hr class='h-px my-5 bg-gray-200 border-0 dark:bg-gray-700'></hr>
 				<div className='flex flex-col'>
-					{services && services.map((service, index) => {
+					{products && products.map((service, index) => {
 						return <ProductCard service={service} key={index} className='my-2' />;
 					})}
-					<ProductCard service={service} />
+					{/* <ProductCard service={service} /> */}
 				</div>
 			</div>
 		</div>

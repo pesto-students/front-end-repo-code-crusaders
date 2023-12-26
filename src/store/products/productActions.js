@@ -3,7 +3,7 @@ import axiosConfig from '../../utils/axiosConfig';
 
 export const getProducts = createAsyncThunk('lab/product', async (query, { rejectWithValue }) => {
 	try {
-		const lab = '';
+		const { lab } = query;
 		const sortBy = 'price';
 		const page = 1;
 		const limit = 10;
