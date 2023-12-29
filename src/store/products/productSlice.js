@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	getProducts
+	getProducts, createProduct
 } from './productActions';
 
 const initialState = {
 	loading: false,
 	labs: [],
 	products: [],
+	pagination: {
+		totalResult: 0,
+		totalPages: 0,
+	},
+	lab: {},
 	error: null,
 	success: false,
 };
@@ -23,11 +28,31 @@ const authSlice = createSlice({
 		},
 		[getProducts.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.products = [...state.products, ...action.payload.products];
+			console.log('action', action.payload);
+			state.pagination = {
+				totalPages: action.payload.totalPages,
+				totalResult: action.payload.totalResults,
+			};
+			state.lab = action.payload.lab;
+			state.products = action.payload.results;
 			state.error = null;
 		},
 		[getProducts.rejected]: (state, action) => {
 			state.loading = false;
+			state.error = action.payload.error;
+		},
+
+		[createProduct.pending]: (state) => {
+			state.loading = true;
+		},
+		[createProduct.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.success = true;
+			state.error = null;
+		},
+		[createProduct.rejected]: (state, action) => {
+			state.loading = false;
+			state.success = false;
 			state.error = action.payload.error;
 		}
 	},

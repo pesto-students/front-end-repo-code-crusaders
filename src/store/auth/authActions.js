@@ -42,7 +42,7 @@ export const loginUser = createAsyncThunk('user/login', async ({
 }, { rejectWithValue }) => {
 	try {
 		const response = await axiosConfig.post('/v1/auth/login', {
-			email: 'dkhno389@gmail.com', password: 'Test@123'
+			email: 'lab1@example.com', password: 'Test@123'
 		});
 		console.log(email, password);
 		return await response.data;
@@ -57,7 +57,7 @@ export const verifyUserDetails = createAsyncThunk('/user/verify', async (_, { re
 	try {
 		const response = await axiosConfig.get('/v1/auth/verify');
 
-		return await response.data;
+		return response.data;
 	} catch (error) {
 		return rejectWithValue({
 			error: error.response.data ? error.response.data.message : error.message
