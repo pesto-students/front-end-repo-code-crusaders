@@ -97,8 +97,19 @@ const Navbar = ({ visible = true }) => {
 						<img src={Logo} alt="Dentibridge" />
 					</div>
 					<div className='m-auto mx-10 '>
-						<NavLink to='/home' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Home </NavLink>
-						<NavLink to='/labs' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Labs </NavLink>
+						{ user && user.role === 'doctor'
+							&& (<>
+								<NavLink to='/home' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Home </NavLink>
+								<NavLink to='/labs' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Labs </NavLink>
+							</>)
+						}
+						{
+							user && user.role === 'lab'
+							&& (<>
+								<NavLink to='/lab/orders' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Orders </NavLink>
+								<NavLink to='/lab/products' className='mx-2 text-white no-underline text-2xl font-["Inria Sans"]'> Products </NavLink>
+							</>)
+						}
 					</div>
 				</div>
 				<div className='h-full flex flex-row justify-between'>

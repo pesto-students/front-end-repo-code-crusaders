@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 import {
-	Labs, Login, Landing, Register, Home, NotFound, Lab, Product, CreateProduct
+	Labs, Login, Landing, Register, Home, NotFound, Lab, Product, CreateProduct, LabOrder
 } from '../../pages';
 
 const ROLES = {
@@ -39,6 +39,10 @@ function App() {
 					<Route
 						path='/register/doctor' exact
 						element={<PublicRoute restricted={true} component={Register} />}
+					/>
+					<Route
+						path ='/lab/orders' exact
+						element={<PublicRoute restricted={true} component={LabOrder} /> }
 					/>
 					<Route
 						path='/register/lab' exact
