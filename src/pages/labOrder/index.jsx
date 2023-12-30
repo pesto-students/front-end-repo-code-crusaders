@@ -1,1 +1,1 @@
-export { LabOrder } from './lab_order';
+export { LabOrder } from './labOrder';

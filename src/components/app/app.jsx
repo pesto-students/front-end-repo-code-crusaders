@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 import {
-	Labs, Login, Landing, Register, Home, NotFound, Lab, Product, CreateProduct, LabOrder
+	Labs, Login, Landing, Register, Home, NotFound, Lab, Product, CreateProduct, LabOrder, LabProducts
 } from '../../pages';
 
 const ROLES = {
@@ -21,7 +21,7 @@ function App() {
 					<Route path='/labs/:lab' element={<PrivateRoute component={Lab} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/product' element={<PrivateRoute component={Product} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/product/create' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
-					<Route path='/lab/products' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
+					<Route path='/lab/products' element={<PrivateRoute component={LabProducts} allowedRoles={[ROLES.Lab]} />} />
 					{/* </Route> */}
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Lab]} />} />
