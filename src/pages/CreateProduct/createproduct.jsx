@@ -67,14 +67,15 @@ export const CreateProduct = () => {
 		// console.log('Files', files);
 	};
 
-	if (error) {
-		message.error('Error creating new Product');
-	}
-
-	if (success) {
-		message.success('Product created successfully');
-		navigate('/lab/products');
-	}
+	React.useEffect(() => {
+		if (success) {
+			message.success('Product updated!');
+			message.success('Product created successfully');
+			navigate('/lab/products');
+		} else if (error) {
+			message.error('Error creating new Product');
+		}
+	}, [success, error, navigate]);
 
 	const onFinishFailed = (errorInfo) => {
 		message.error(`Form validation error!${errorInfo}`);

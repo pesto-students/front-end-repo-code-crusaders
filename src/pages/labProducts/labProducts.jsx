@@ -1,20 +1,59 @@
+import React from 'react';
 import { useNavigate } from 'react-router';
-import BgLogo from '../../assets/logo/bg_logo.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, Tabs } from 'antd';
+import { Navbar } from '../../components/navbar';
+import { ProductsTable } from './ProductsTable';
+import { getProductCount } from '../../store/products/productActions';
 
 const LabProducts = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const { loading, tabsCount } = useSelector((state) => state.product);
+
+	const tabs = ['All', 'Active', 'Inactive'];
+
+	const getCount = React.useCallback(() => {
+		dispatch(getProductCount());
+	}, [dispatch]);
+
+	React.useEffect(() => {
+		getCount();
+	}, [getCount]);
+
+	React.useEffect(() => {
+		console.log(tabsCount);
+	}, [tabsCount]);
+
+	// const onTabChange = () => {
+	// 	console.log('tabvalue changed');
+	// };
 
 	return (
-		<div className='bg-[#CCD6E5] flex flex-col justify-center items-center h-screen'>
-			<div>
-				<img src={BgLogo} alt='Dentibridge' />
+		<div className='w-full'>
+			<Navbar />
+			<div className='w-full bg-[#e3e8ef]'>
+				<div className='container m-auto py-3 flex justify-between'>
+					<h2> Products </h2>
+					<Button className='docButton' onClick={() => { navigate('/product/create'); }}>
+            New Product
+					</Button>
+				</div>
 			</div>
-			<div className='text-lg space-y-5 text-center'>
-				<h1>:( 404: Page Not Found. </h1>
-				<h2> Sorry, the page you visited does not exist. </h2>
-				<button className='docButton' onClick={() => navigate('/home')}>
-					Back Home
-				</button>
+
+			<div className='container m-auto py-2'>
+				<div>
+					<Tabs
+						// onChange={onTabChange}
+						items = { tabs.map((tab, i) => {
+							return {
+								label: `${tab} (${tabsCount[tab] || 0})`,
+								key: i,
+								children: <ProductsTable tab={tab} id={i}/>,
+							};
+						})}
+					/>
+				</div>
 			</div>
 		</div>
 	);

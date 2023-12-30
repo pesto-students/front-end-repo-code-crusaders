@@ -57,10 +57,14 @@ instance.interceptors.response.use((response) => {
 				localStorage.removeItem('userAccessToken');
 				console.log('Refresh token called');
 
+				if (!localStorage.getItem('userRefreshToken')) {
+					window.location.href = '/login';
+					return Promise.reject(error); // Stop further execution
+				}
 				try {
-					const refreshData = await (await instance.post('/v1/auth/refresh-tokens', {
+					const refreshData = await instance.post('/v1/auth/refresh-tokens', {
 						refreshToken: localStorage.getItem('userRefreshToken'),
-					}));
+					});
 
 					if (refreshData) {
 						const { user } = store.getState().auth;

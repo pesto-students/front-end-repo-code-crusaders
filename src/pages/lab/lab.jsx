@@ -115,7 +115,7 @@ const ProductCard = ({ className, product }) => {
 const Lab = () => {
 	const dispatch = useDispatch();
 	const { products, lab, pagination } = useSelector((state) => state.product);
-	const [page, setPage] = React.useState(0);
+	const [page, setPage] = React.useState(1);
 	const [search, setSearch] = React.useState('');
 	const pageLimit = 2;
 	// const lab = {
