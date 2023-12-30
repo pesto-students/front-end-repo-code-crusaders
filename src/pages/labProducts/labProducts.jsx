@@ -9,7 +9,8 @@ import { getProductCount } from '../../store/products/productActions';
 const LabProducts = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { loading, tabsCount } = useSelector((state) => state.product);
+	const { tabsCount } = useSelector((state) => state.product);
+	const [tab, setTab] = React.useState(0);
 
 	const tabs = ['All', 'Active', 'Inactive'];
 
@@ -24,10 +25,6 @@ const LabProducts = () => {
 	React.useEffect(() => {
 		console.log(tabsCount);
 	}, [tabsCount]);
-
-	// const onTabChange = () => {
-	// 	console.log('tabvalue changed');
-	// };
 
 	return (
 		<div className='w-full'>
@@ -44,15 +41,16 @@ const LabProducts = () => {
 			<div className='container m-auto py-2'>
 				<div>
 					<Tabs
-						// onChange={onTabChange}
+						onChange={setTab}
 						items = { tabs.map((tab, i) => {
 							return {
 								label: `${tab} (${tabsCount[tab] || 0})`,
 								key: i,
-								children: <ProductsTable tab={tab} id={i}/>,
+								// children: <ProductsTable tab={tab} id={i}/>,
 							};
 						})}
 					/>
+					<ProductsTable tab={tabs[tab]} id={tab}/>
 				</div>
 			</div>
 		</div>
