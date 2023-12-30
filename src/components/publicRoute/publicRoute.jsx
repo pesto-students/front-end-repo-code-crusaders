@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 // import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Navbar } from '../navbar';
 import { LoadingPage } from '../../pages';
 
@@ -32,7 +32,10 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 						) : user?.role === 'lab' ? (
 							<Navigate to={{ pathname: '/dashboard' }} />
 						) : (
-							<Component {...props} />
+							<>
+								<Component {...props} />
+								{/* <Outlet /> */}
+							</>
 						))
 			}
 		</>

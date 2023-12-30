@@ -119,7 +119,7 @@ export const CreateProduct = () => {
 					<h1 className='text-black my-5 text-left'>New Product</h1>
 					<div className='mt-5'>
 						<Form
-							name='contactUs'
+							name='createProduct'
 							wrapperCol={{
 								span: 22,
 							}}
@@ -131,7 +131,7 @@ export const CreateProduct = () => {
 							}}
 							onFinish={onFinish}
 							onFinishFailed={onFinishFailed}
-							autoComplete='off'
+							autoComplete='on'
 						>
 							<Form.Item
 								name='productImg'

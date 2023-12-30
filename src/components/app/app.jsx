@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 import {
-	Labs, Login, Landing, Register, Home, NotFound, Lab, Product, CreateProduct, LabOrder, LabProducts
+	// eslint-disable-next-line max-len
+	Labs, Login, Landing, Register, LabRegister, Home, NotFound, Lab, Product, CreateProduct, LabOrder, LabProducts
 } from '../../pages';
 
 const ROLES = {
@@ -46,7 +47,7 @@ function App() {
 					/>
 					<Route
 						path='/register/lab' exact
-						element={<PublicRoute role={ROLES.Lab} component={Register} />}
+						element={<PublicRoute role={ROLES.Lab} component={LabRegister} />}
 					/>
 					<Route path='*' element={<NotFound />} />
 				</Routes>

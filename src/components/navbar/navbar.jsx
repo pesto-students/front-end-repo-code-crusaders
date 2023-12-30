@@ -38,6 +38,9 @@ const Navbar = ({ visible = true }) => {
 
 	const logoutHandler = () => {
 		dispatch(logoutUser());
+		setTimeout(() => {
+			navigate('/login');
+		}, 3000);
 	};
 
 	if (!visible) {

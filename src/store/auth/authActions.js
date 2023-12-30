@@ -6,7 +6,6 @@ export const registerUser = createAsyncThunk('user/register', async ({
 }, { rejectWithValue }) => {
 	try {
 		let response;
-		role = 'doctor';
 		if (role === 'doctor') {
 			response = await axiosConfig.post('/v1/auth/doctor/register', {
 				email,

@@ -48,7 +48,8 @@ export const Register = () => {
 					city: e.city,
 					pincode: e.pincode,
 					state: e.state,
-					country: e.country
+					country: e.country,
+					role: 'doctor'
 				})
 			)
 				.unwrap()
@@ -73,6 +74,7 @@ export const Register = () => {
 						<Form
 							form={form}
 							layout="horizontal"
+							name='doctorRegister'
 							// labelCol={{ span: 6 }}
 							// wrapperCol={{ span: 16 }}
 							initialValues={{
