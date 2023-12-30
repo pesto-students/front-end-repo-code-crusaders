@@ -21,9 +21,10 @@ function App() {
 					<Route path='/labs/:lab' element={<PrivateRoute component={Lab} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/product' element={<PrivateRoute component={Product} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/product/create' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
+					<Route path='/lab/products' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
 					{/* </Route> */}
 					<Route path='/dashboard'
-						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
+						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Lab]} />} />
 
 					{/* public Route */}
 					<Route exact path='/' element={<Landing />} />

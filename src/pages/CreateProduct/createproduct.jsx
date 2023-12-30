@@ -4,6 +4,7 @@ import {
 	Button, Form, Input, Upload, InputNumber, Tooltip, Select, message
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { UploadOutlined } from '@ant-design/icons';
 import { createProduct } from '../../store/products/productActions';
 import { Navbar } from '../../components/navbar';
@@ -14,6 +15,7 @@ const { TextArea } = Input;
 
 export const CreateProduct = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { loading, error, success } = useSelector((state) => state.product);
 	const [uploadURL, setUploadURL] = React.useState('');
 
@@ -66,15 +68,16 @@ export const CreateProduct = () => {
 	};
 
 	if (error) {
-		message.error('Error creating new Product', 2000);
+		message.error('Error creating new Product');
 	}
 
 	if (success) {
-		message.success('Product created successfully', 3000);
+		message.success('Product created successfully');
+		navigate('/lab/products');
 	}
 
 	const onFinishFailed = (errorInfo) => {
-		message.error(`Form validation error!${errorInfo}`, 2000);
+		message.error(`Form validation error!${errorInfo}`);
 		console.log('Failed:', errorInfo);
 	};
 

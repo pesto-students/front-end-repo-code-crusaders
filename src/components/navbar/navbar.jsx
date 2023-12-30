@@ -20,6 +20,7 @@ const Navbar = ({ visible = true }) => {
 	};
 
 	useEffect(() => {
+		console.log('called');
 		if (accessToken) {
 			dispatch(verifyUserDetails());
 		}

@@ -49,11 +49,16 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.success = true;
 			state.error = null;
+			state.products = [action.payload?.product, ...state.products];
+			setTimeout(() => {
+				state.success = false;
+				state.error = null;
+			}, 5000);
 		},
 		[createProduct.rejected]: (state, action) => {
 			state.loading = false;
 			state.success = false;
-			state.error = action.payload.error;
+			state.error = action.payload?.error;
 		}
 	},
 });
