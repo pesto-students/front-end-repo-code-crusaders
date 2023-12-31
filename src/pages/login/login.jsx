@@ -64,14 +64,14 @@ export const Login = ({ role }) => {
 
 	return (
 		<div className='w-full flex h-screen'>
-			<div className='w-2/5 flex items-center justify-center'>
-				<div className='flex flex-col items-center m-auto'>
+			<div className='w-2/5 flex items-center justify-center overflow-y-scroll'>
+				<div className='flex flex-col items-center m-auto '>
 					<div className='w-1/2 p-10'>
 						<img src={Logo} alt="Main Logo" className=''/>
 					</div>
 					<div className="flex flex-col w-1/2 px-10 items-start ">
 						<Form
-							name="normal_login"
+							name="login"
 							className="login-form w-full space-y-10"
 							initialValues={{
 								remember: true,

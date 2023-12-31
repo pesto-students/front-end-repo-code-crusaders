@@ -42,16 +42,24 @@ const authSlice = createSlice({
 	extraReducers: {
 		[registerUser.pending]: (state) => {
 			state.loading = true;
+			state.success = false;
+			state.error = null;
 		},
 		[registerUser.fulfilled]: (state, action) => {
 			state.loading = false;
 			state.user = action.payload.user;
 			state.roles = [action.payload.user.role];
+			state.accessToken = action.payload.tokens.access.token;
+			state.refreshToken = action.payload.tokens.refresh.token;
+			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
+			localStorage.setItem('userAccessToken', action.payload.tokens.access.token);
+			localStorage.setItem('userRefreshToken', action.payload.tokens.refresh.token);
 			state.error = null;
 			state.success = true;
 		},
 		[registerUser.rejected]: (state, action) => {
 			state.loading = false;
+			state.success = false;
 			state.error = action.payload.error;
 		},
 

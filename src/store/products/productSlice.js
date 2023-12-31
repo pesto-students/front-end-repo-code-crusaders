@@ -1,12 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	getProducts
+	getProducts, createProduct, updateProduct, getProductCount
 } from './productActions';
 
 const initialState = {
 	loading: false,
 	labs: [],
-	product: {},
+	products: [],
+	pagination: {
+		totalResult: 0,
+		totalPages: 0,
+	},
+	lab: {},
+	tabsCount: {},
 	error: null,
 	success: false,
 };
@@ -15,25 +21,81 @@ const authSlice = createSlice({
 	name: 'product',
 	initialState,
 	reducers: {
-
+		// setProductCount: (state, action) => {
+		// 	console.log('why not update tabs balues ,,,,', action);
+		// 	state.tabsCount = action.payload;
+		// }
 	},
 	extraReducers: {
-
 		[getProducts.pending]: (state) => {
 			state.loading = true;
 		},
 		[getProducts.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.labs = [...state.labs, ...action.payload.labs];
+			console.log('action', action.payload);
+			state.pagination = {
+				totalPages: action.payload.totalPages,
+				totalResult: action.payload.totalResults,
+			};
+			state.lab = action.payload.lab;
+			state.products = action.payload.results;
 			state.error = null;
 		},
 		[getProducts.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.payload.error;
+		},
+
+		[getProductCount.fulfilled]: (state, action) => {
+			const count = action.payload;
+			state.tabsCount = {
+				All: count.All,
+				Active: count.Active,
+				Inactive: count.Inactive
+			};
+		},
+
+		[createProduct.pending]: (state) => {
+			state.loading = true;
+		},
+		[createProduct.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.success = true;
+			state.error = null;
+			state.products = [action.payload?.product, ...state.products];
+			// setTimeout(() => {
+			// 	state.success = false;
+			// 	state.error = null;
+			// }, 3000);
+		},
+		[createProduct.rejected]: (state, action) => {
+			state.loading = false;
+			state.success = false;
+			state.error = action.payload?.error;
+		},
+
+		[updateProduct.pending]: (state) => {
+			state.loading = true;
+		},
+		[updateProduct.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.success = true;
+			state.error = null;
+			state.products = [action.payload?.product, ...state.products];
+			// setTimeout(() => {
+			// 	state.success = false;
+			// 	state.error = null;
+			// }, 3000);
+		},
+		[updateProduct.rejected]: (state, action) => {
+			state.loading = false;
+			state.success = false;
+			state.error = action.payload?.error;
 		}
+
 	},
 });
 
 export default authSlice.reducer;
 
-export const { setCredentials } = authSlice.actions;
+// export const { setProductCount } = authSlice.actions;

@@ -1,32 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosConfig from '../../utils/axiosConfig';
 
-export const registerUser = createAsyncThunk('user/register', async ({
-	firstname, lastname, email, password, role
-}, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk('user/register', async ({ body, role }, { rejectWithValue }) => {
 	try {
 		let response;
-		role = 'doctor';
+		// {
+		// 		email,
+		// 		password,
+		// 		firstname: 'krushit',
+		// 		lastname: 'dudhat',
+		// 		doctorID: 'doc123',
+		// 		hospital: 'hospital',
+		// 		addressLine1: '12, address line 1',
+		// 		landmark: 'near landmark',
+		// 		city: 'surat',
+		// 		state: 'Gujarat',
+		// 	}
 		if (role === 'doctor') {
-			response = await axiosConfig.post('/v1/auth/doctor/register', {
-				email,
-				password,
-				firstname: 'krushit',
-				lastname: 'dudhat',
-				doctorID: 'doc123',
-				hospital: 'hospital',
-				addressLine1: '12, address line 1',
-				landmark: 'near landmark',
-				city: 'surat',
-				state: 'Gujarat',
-			});
+			response = await axiosConfig.post('/v1/auth/doctor/register', body);
 		} else {
-			response = await axiosConfig.post('/v1/auth/lab/register', {
-				full_name: `${firstname} ${lastname}`,
-				user_email: email,
-				password,
-				role: 'lab'
-			});
+			response = await axiosConfig.post('/v1/auth/lab/register', body);
 		}
 
 		return await response.data;
@@ -42,7 +35,7 @@ export const loginUser = createAsyncThunk('user/login', async ({
 }, { rejectWithValue }) => {
 	try {
 		const response = await axiosConfig.post('/v1/auth/login', {
-			email: 'dkhno389@gmail.com', password: 'Test@123'
+			email: 'lab1@example.com', password: 'Test@123'
 		});
 		console.log(email, password);
 		return await response.data;
@@ -57,7 +50,7 @@ export const verifyUserDetails = createAsyncThunk('/user/verify', async (_, { re
 	try {
 		const response = await axiosConfig.get('/v1/auth/verify');
 
-		return await response.data;
+		return response.data;
 	} catch (error) {
 		return rejectWithValue({
 			error: error.response.data ? error.response.data.message : error.message

@@ -36,19 +36,23 @@ export const Register = () => {
 		) {
 			setValidationError('All fields are required');
 		} else {
+			const params = {
+				firstName: e.firstName,
+				lastName: e.lastName,
+				email: e.email,
+				password: e.password,
+				doctorId: e.doctor,
+				hospital_name: e.hospital,
+				address: e.address,
+				city: e.city,
+				pincode: e.pincode,
+				state: e.state,
+				country: e.country,
+			};
 			dispatch(
 				registerUser({
-					firstName: e.firstName,
-					lastName: e.lastName,
-					email: e.email,
-					password: e.password,
-					doctorId: e.doctor,
-					hospital_name: e.hospital,
-					address: e.address,
-					city: e.city,
-					pincode: e.pincode,
-					state: e.state,
-					country: e.country
+					body: params,
+					role: 'doctor'
 				})
 			)
 				.unwrap()
@@ -73,6 +77,7 @@ export const Register = () => {
 						<Form
 							form={form}
 							layout="horizontal"
+							name='doctorRegister'
 							// labelCol={{ span: 6 }}
 							// wrapperCol={{ span: 16 }}
 							initialValues={{

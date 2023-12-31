@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 // import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Navbar } from '../navbar';
 import { LoadingPage } from '../../pages';
 
@@ -27,13 +27,17 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 			{
 				loading ? <LoadingPage />
 					: (
-						user?.role === 'doctor' ? (
-							<Navigate to={{ pathname: '/home' }} />
-						) : user?.role === 'lab' ? (
-							<Navigate to={{ pathname: '/dashboard' }} />
-						) : (
+						// user?.role === 'doctor' ? (
+						// 	<Navigate to={{ pathname: '/home' }} />
+						// ) : user?.role === 'lab' ? (
+						// 	<Navigate to={{ pathname: '/lab/products' }} />
+						// ) : (
+						<>
 							<Component {...props} />
-						))
+							{/* <Outlet /> */}
+						</>
+						// )
+					)
 			}
 		</>
 	);

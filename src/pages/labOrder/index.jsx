@@ -1,0 +1,1 @@
+export { LabOrder } from './labOrder';

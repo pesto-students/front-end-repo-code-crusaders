@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Navbar } from '../../components/navbar';
 import { LabCard } from '../../components/labCard';
 // import Hero from '../../assets/doctor/hero.jpg';
@@ -48,6 +49,11 @@ const labs = [
 ];
 
 const Labs = () => {
+	// const dispatch = useDispatch();
+	// const {
+	// 	labs
+	// } = useSelector((state) => state.product);
+
 	return (
 		<div>
 			<Navbar />

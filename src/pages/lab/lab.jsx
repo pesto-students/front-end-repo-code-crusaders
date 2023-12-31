@@ -1,8 +1,11 @@
 // import { useNavigate } from 'react-router';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { LocationOn, CurrencyRupee } from '@mui/icons-material';
 import {
-	Card, Rate, Input
+	Card, Rate, Input, Pagination
 } from 'antd';
+import { getProducts } from '../../store/products/productActions';
 import { Navbar } from '../../components/navbar';
 
 const { Meta } = Card;
@@ -23,22 +26,22 @@ const LabHorizontalCard = ({ className, lab }) => {
 					}
 				>
 					<Meta
-						title={lab.name}
+						title={lab?.lab?.name}
 					/>
 					<div className='flex my-2 text-lg'>
 						<LocationOn />
-						<p> {lab.distance} KM, </p>
+						<p> {lab?.distance} </p>
             &nbsp;
-						<p> {lab.city} </p>
+						<p> {lab?.address ? lab.address[0].city : 'surat'} </p>
 					</div>
 					<div>
 						<Rate
 							allowHalf={true}
-							defaultValue={lab.rating}
+							defaultValue={lab?.lab?.rating || '4'}
 							disabled
 							className=''
 						/>
-						<span> {parseFloat(lab.rating).toFixed(1)} </span>
+						<span> {parseFloat(lab?.lab?.rating || 4).toFixed(1)} </span>
 					</div>
 				</Card>
 			</div>
@@ -46,7 +49,7 @@ const LabHorizontalCard = ({ className, lab }) => {
 	);
 };
 
-const ProductCard = ({ className, service }) => {
+const ProductCard = ({ className, product }) => {
 	return (
 		<>
 			<div className='w-2/3 m-auto'>
@@ -60,21 +63,21 @@ const ProductCard = ({ className, service }) => {
 						/>
 					}
 				>
-					<Meta title={service.title} />
+					<Meta title={product.name} />
 					<div className='flex my-2 text-lg'>
-						{service.description}
+						{product?.details?.features}
 					</div>
 					<div className='my-2 text-lg font-sans'>
-						<CurrencyRupee /> <span> {service.price} </span>
+						<CurrencyRupee /> <span> {product.price} </span>
 					</div>
 					<div>
 						<Rate
 							allowHalf={true}
-							defaultValue={service.rating}
+							defaultValue={product.rating}
 							disabled
 							className=''
 						/>
-						<span> {parseFloat(service.rating).toFixed(1)} </span>
+						<span> {parseFloat(product.rating).toFixed(1)} </span>
 					</div>
 				</Card>
 			</div>
@@ -82,49 +85,70 @@ const ProductCard = ({ className, service }) => {
 	);
 };
 
-const services = [
-	{
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000',
-	},
-	{
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000',
-	},
-	{
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000',
-	},
-	{
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000',
-	},
-];
-
-const onSearch = (value, _e, info) => console.log(info?.source, value);
+// const services = [
+// 	{
+// 		title: 'Precious (Silver)',
+// 		description: 'Get precious Silver teeth cover',
+// 		rating: 4.5,
+// 		price: '2000',
+// 	},
+// 	{
+// 		title: 'Precious (Silver)',
+// 		description: 'Get precious Silver teeth cover',
+// 		rating: 4.5,
+// 		price: '2000',
+// 	},
+// 	{
+// 		title: 'Precious (Silver)',
+// 		description: 'Get precious Silver teeth cover',
+// 		rating: 4.5,
+// 		price: '2000',
+// 	},
+// 	{
+// 		title: 'Precious (Silver)',
+// 		description: 'Get precious Silver teeth cover',
+// 		rating: 4.5,
+// 		price: '2000',
+// 	},
+// ];
 
 const Lab = () => {
-	const lab = {
-		name: 'Dentalline Laboratory',
-		city: 'surat',
-		distance: '1',
-		rating: 4.2,
-	};
+	const dispatch = useDispatch();
+	const { products, lab, pagination } = useSelector((state) => state.product);
+	const [page, setPage] = React.useState(1);
+	const [search, setSearch] = React.useState('');
+	const pageLimit = 2;
+	// const lab = {
+	// 	name: 'Dentalline Laboratory',
+	// 	city: 'surat',
+	// 	distance: '1',
+	// 	rating: 4.2,
+	// };
 
-	const service = {
-		title: 'Precious (Silver)',
-		description: 'Get precious Silver teeth cover',
-		rating: 4.5,
-		price: '2000'
-	};
+	// const service = {
+	// 	title: 'Precious (Silver)',
+	// 	description: 'Get precious Silver teeth cover',
+	// 	rating: 4.5,
+	// 	price: '2000'
+	// };
+	console.log('total pages', pagination.totalResult);
+	const onSearch = (value, _e, info) => setSearch(info?.source, value);
+
+	React.useEffect(() => {
+		dispatch(getProducts({
+			lab: '658997951317adbabc1f611c',
+			page,
+			limit: pageLimit,
+			search
+		}));
+	}, [page, dispatch, search]);
+
+	React.useEffect(() => {
+		console.log('product', products);
+		if (products.length === 0) {
+			dispatch(getProducts({ lab: '658997951317adbabc1f611c' }));
+		}
+	}, [dispatch, products]);
 
 	return (
 		<div>
@@ -143,14 +167,27 @@ const Lab = () => {
 					onSearch={onSearch}
 					className='w-1/2 mx-auto flex justify-center px-0 border-blue-200 border-2 rounded-lg border-e-0 '
 				/>
-				<hr class='h-px my-5 bg-gray-200 border-0 dark:bg-gray-700'></hr>
+				<hr className='h-px my-5 bg-gray-200 border-0 dark:bg-gray-700'></hr>
 				<div className='flex flex-col'>
-					{services && services.map((service, index) => {
-						return <ProductCard service={service} key={index} className='my-2' />;
+					{products && products.map((product) => {
+						return <ProductCard product={product} key={product.id} className='my-2' />;
 					})}
-					<ProductCard service={service} />
+					{/* <ProductCard service={service} /> */}
 				</div>
+				<Pagination
+					defaultCurrent={1}
+					total={pagination.totalResult}
+					current={page}
+					defaultPageSize={pageLimit}
+					// responsive={true}
+					onChange={(newPage) => {
+						console.log('page change', newPage);
+						return setPage(newPage);
+					}}
+					className='flex justify-center items-center my-5'
+				/>
 			</div>
+
 		</div>
 	);
 };
