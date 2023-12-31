@@ -22,7 +22,7 @@ export const Login = ({ role }) => {
 			if (user.role === 'doctor') {
 				navigate('/home', { successLogin: true });
 			} else if (user.role === 'lab') {
-				navigate('/dashboard', { successLogin: true });
+				navigate('/lab/products', { successLogin: true });
 			}
 		}
 	}, [navigate, user]);
