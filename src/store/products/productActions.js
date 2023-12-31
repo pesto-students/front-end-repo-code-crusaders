@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosConfig from '../../utils/axiosConfig';
-import { setProductCount } from './productSlice';
 
 export const getProducts = createAsyncThunk('lab/products', async (query, { rejectWithValue }) => {
 	try {

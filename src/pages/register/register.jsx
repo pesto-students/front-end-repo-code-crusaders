@@ -1,14 +1,8 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
-/* eslint-disable no-unused-vars */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
-	Flex,
-	Input, Button, Checkbox, Form, Row, Col
+	Input, Button, Form, Row, Col
 } from 'antd';
-import { Toaster } from 'react-hot-toast';
 import { errorToast, successToast } from '../../utils';
 import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
@@ -18,21 +12,20 @@ export const Register = () => {
 	const dispatch = useDispatch();
 	const { loading } = useSelector((state) => state.auth);
 	const [validationError, setValidationError] = useState('');
-	const fullName = useRef('');
-	const email = useRef('');
-	const password = useRef('');
 	const [form] = Form.useForm();
-	const onFinish = (values) => {
-		console.log('Received values of form: ', values);
-	};
+
+	// const onFinish = (values) => {
+	// 	console.log('Received values of form: ', values);
+	// };
+	console.log(validationError);
 	const signUpUser = (e) => {
 		// e.preventDefault();
 		// e.stopPropagation();
 		// validation for all fields
 		if (
 			!e.firstName.trim
-	  || !e.lastName.trim
-	  || !e.email.trim
+			|| !e.lastName.trim
+			|| !e.email.trim
 		) {
 			setValidationError('All fields are required');
 		} else {
@@ -225,7 +218,7 @@ export const Register = () => {
 							<Row>
 								<Col span={24}>
 									<Form.Item>
-										<Button htmlType="submit" className='docButton'>
+										<Button htmlType="submit" className='docButton' loading={loading}>
               Register
 										</Button>
             Or <a href="/login">Login Now!</a>
@@ -244,83 +237,5 @@ export const Register = () => {
 				</div>
 			</div>
 		</div>
-		// <section className='p-8'>
-		// 	<Toaster />
-		// 	<form onSubmit={signUpUser}>
-		// 		<div>
-		// 			<h1>Sign Up</h1>
-		// 			<p className='mt-4 mb-8'>
-	//     If you already have an account registered <br />
-	//     You can{' '}
-		// 				<Link to='/login' className='link'>
-	//       Login here !
-		// 				</Link>
-		// 			</p>
-		// 		</div>
-		// 		<div>
-		// 			<label className='block text-primary-grey text-[13px] font-medium pb-1'>
-	//     Full Name
-		// 			</label>
-		// 			<div className='relative'>
-		// 				<input
-		// 					className='inputField mb-8 w-full'
-		// 					name='fullName'
-		// 					placeholder='Enter your full name'
-		// 					id='fullName'
-		// 					onChange={() => setValidationError('')}
-		// 					ref={(e) => {
-		// 						fullName = e;
-		// 					}}
-		// 					type='text'
-		// 					required
-		// 				/>
-		// 			</div>
-		// 		</div>
-		// 		<div>
-		// 			<label className='block text-primary-grey text-[13px] font-medium pb-1'>
-	//     Email
-		// 			</label>
-		// 			<div className='relative'>
-		// 				<input
-		// 					className='inputField mb-8 w-full'
-		// 					name='email'
-		// 					placeholder='Enter your email'
-		// 					id='email'
-		// 					onChange={() => setValidationError('')}
-		// 					ref={(e) => {
-		// 						email = e;
-		// 					}}
-		// 					type='email'
-		// 					required
-		// 				/>
-		// 			</div>
-		// 		</div>
-		// 		<div>
-		// 			<label className='block text-primary-grey text-[13px] font-medium pb-1'>
-	//     Password
-		// 			</label>
-		// 			<div className='relative'>
-		// 				<input
-		// 					className='inputField mb-8 w-full'
-		// 					name='password'
-		// 					placeholder='Enter your password'
-		// 					id='password'
-		// 					onChange={() => setValidationError('')}
-		// 					ref={(e) => {
-		// 						password = e;
-		// 					}}
-		// 					type='password'
-		// 					required
-		// 				/>
-		// 			</div>
-		// 		</div>
-		// 		{validationError && (
-		// 			<p className='text-left text-red-500'>{validationError}</p>
-		// 		)}
-		// 		<button type='submit' className='primaryButton'>
-		// 			{loading ? 'Loading...' : 'Register'}
-		// 		</button>
-		// 	</form>
-		// </section>
 	);
 };

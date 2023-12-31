@@ -1,13 +1,11 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
-	Flex,
 	Input, Button, Checkbox, Form
 } from 'antd';
-import { Toaster } from 'react-hot-toast';
 import { loginUser } from '../../store/auth/authActions';
 import { errorToast } from '../../utils';
 import LabLogo from '../../assets/logo/bg_logo.png';
@@ -17,8 +15,6 @@ export const Login = ({ role }) => {
 	const { user, loading } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const email = useRef('');
-	const password = useRef('');
 
 	useEffect(() => {
 		console.log('user', user);
@@ -126,7 +122,7 @@ export const Login = ({ role }) => {
 
 							<Form.Item className=''>
 								<div className='flex flex-col space-y-3'>
-									<Button type="primary" htmlType="submit" className="docButton"> Log in </Button>
+									<Button type="primary" loading={loading} htmlType="submit" className="docButton"> Log in </Button>
 									<div className='flex w-full'>
 										<hr className='w-1/2 bg-gray-200 border-0 dark:bg-gray-700' />
 										<span className='font-semibold'> OR </span>

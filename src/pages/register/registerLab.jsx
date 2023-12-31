@@ -7,16 +7,14 @@ import {
 	Input, Button, Form, message, Upload
 } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { errorToast, successToast } from '../../utils';
 import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
 import axiosConfig from '../../utils/axiosConfig';
 import { registerUser } from '../../store/auth/authActions';
 
-const LabRegister = ({ role }) => {
+const LabRegister = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const [uploadURL, setUploadURL] = React.useState({});
 
 	const { loading, error, success } = useSelector((state) => state.auth);
 	const [form] = Form.useForm();
@@ -72,27 +70,6 @@ const LabRegister = ({ role }) => {
 
 		return false;
 	};
-
-	// const upload = async (file) => {
-	// 	const newFile = { ...file };
-	// 	newFile.name = uploadURL.file.name;
-	// 	console.log('got url', file, uploadURL);
-	// 	try {
-	// 		const res = await axios.put(
-	// 			uploadURL.signedURL,
-	// 			file,
-	// 			{
-	// 				headers: {
-	// 					'Content-Type': file.type,
-	// 				},
-	// 			},
-	// 		);
-	// 		console.log(res);
-	// 	} catch (error) {
-	// 		return error;
-	// 	}
-	// 	return 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188';
-	// };
 
 	return (
 		<div className='w-full flex h-screen'>

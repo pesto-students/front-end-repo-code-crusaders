@@ -97,7 +97,9 @@ export const ProductsTable = ({ tab }) => {
 			title: 'Details',
 			dataIndex: 'id',
 			align: 'center',
-			render: (text, collection) => <Button> view Details </Button>,
+			render: (text, collection) => <Button
+				onClick={() => console.log(text, collection)}
+			> view Details </Button>,
 		},
 	];
 
