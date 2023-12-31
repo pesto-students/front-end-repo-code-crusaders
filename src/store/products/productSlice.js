@@ -19,7 +19,7 @@ const initialState = {
 	product: null
 };
 
-const authSlice = createSlice({
+const productSlice = createSlice({
 	name: 'product',
 	initialState,
 	reducers: {
@@ -112,6 +112,6 @@ const authSlice = createSlice({
 	},
 });
 
-export default authSlice.reducer;
+export default productSlice.reducer;
 
 // export const { setProductCount } = authSlice.actions;

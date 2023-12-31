@@ -5,10 +5,11 @@ export const getProducts = createAsyncThunk('lab/products', async (query, { reje
 	try {
 		const sortBy = 'price';
 		const {
-			page, limit, lab, active,
+			page, limit, lab, active, search
 		} = query;
 		let queryURL = `sortBy=${sortBy}&page=${page}&limit=${limit}`;
 		queryURL += lab ? `&lab=${lab}` : '';
+		queryURL += search ? `&search=${search}` : '';
 		queryURL += active !== undefined ? `&active=${active}` : '';
 
 		const response = await axiosConfig.get(`/v1/product?${queryURL}`);
