@@ -33,7 +33,8 @@ instance.interceptors.request.use(
 		if (accessToken) {
 			config.headers = {
 				Authorization: `Bearer ${accessToken}`,
-				Accept: 'application/json'
+				Accept: 'application/json',
+				withCredentials: true
 			};
 		}
 
