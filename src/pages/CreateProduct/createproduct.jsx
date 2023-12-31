@@ -69,7 +69,6 @@ export const CreateProduct = () => {
 
 	React.useEffect(() => {
 		if (success) {
-			message.success('Product updated!');
 			message.success('Product created successfully');
 			navigate('/lab/products');
 		} else if (error) {

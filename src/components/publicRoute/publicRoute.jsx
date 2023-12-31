@@ -27,16 +27,17 @@ export const PublicRoute = ({ component: Component, ...props }) => {
 			{
 				loading ? <LoadingPage />
 					: (
-						user?.role === 'doctor' ? (
-							<Navigate to={{ pathname: '/home' }} />
-						) : user?.role === 'lab' ? (
-							<Navigate to={{ pathname: '/dashboard' }} />
-						) : (
-							<>
-								<Component {...props} />
-								{/* <Outlet /> */}
-							</>
-						))
+						// user?.role === 'doctor' ? (
+						// 	<Navigate to={{ pathname: '/home' }} />
+						// ) : user?.role === 'lab' ? (
+						// 	<Navigate to={{ pathname: '/lab/products' }} />
+						// ) : (
+						<>
+							<Component {...props} />
+							{/* <Outlet /> */}
+						</>
+						// )
+					)
 			}
 		</>
 	);

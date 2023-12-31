@@ -84,6 +84,7 @@ instance.interceptors.response.use((response) => {
 						return Promise.reject(error.response.data);
 					}
 
+					window.location.href = '/login';
 					return Promise.reject(error);
 				} finally {
 					originalRequest._retry = true;

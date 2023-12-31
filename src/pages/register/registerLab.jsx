@@ -1,17 +1,22 @@
 /* eslint-disable no-unused-vars */
+import React from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-	Input, Button, Form, message
+	Input, Button, Form, message, Upload
 } from 'antd';
-import { Toaster } from 'react-hot-toast';
+import { UploadOutlined } from '@ant-design/icons';
 import { errorToast, successToast } from '../../utils';
 import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
+import axiosConfig from '../../utils/axiosConfig';
+import { registerUser } from '../../store/auth/authActions';
 
 const LabRegister = ({ role }) => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [uploadURL, setUploadURL] = React.useState({});
 
 	const { loading, error, success } = useSelector((state) => state.auth);
 	const [form] = Form.useForm();
@@ -25,15 +30,39 @@ const LabRegister = ({ role }) => {
 		}
 		return Promise.resolve();
 	};
+
+	React.useEffect(() => {
+		if (success) {
+			message.success('Lab Registered Successfully');
+			navigate('/lab/products');
+		} else if (error) {
+			message.error('Error Registering Lab');
+		}
+	}, [error, success, navigate]);
+
 	const onFinish = (values) => {
 		console.log('form ', values);
 		const params = {
-			firstName: values.firstName,
-			lastName: values.lastName,
+			firstname: values.firstName,
+			lastname: values.lastName,
 			email: values.email,
-			password: values
+			password: values.password,
+			image: values.userImage.file.response.newName,
+			lab: {
+				name: values.labName,
+				regID: values.regID,
+			},
+			address: {
+				address1: values.address1,
+				address2: values.address2,
+				city: values.city,
+				state: values.state,
+				country: values.country,
+				pincode: values.pincode
+			}
 		};
 
+		dispatch(registerUser({ body: params, role: 'lab' }));
 		// return false;
 	};
 
@@ -43,6 +72,27 @@ const LabRegister = ({ role }) => {
 
 		return false;
 	};
+
+	// const upload = async (file) => {
+	// 	const newFile = { ...file };
+	// 	newFile.name = uploadURL.file.name;
+	// 	console.log('got url', file, uploadURL);
+	// 	try {
+	// 		const res = await axios.put(
+	// 			uploadURL.signedURL,
+	// 			file,
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': file.type,
+	// 				},
+	// 			},
+	// 		);
+	// 		console.log(res);
+	// 	} catch (error) {
+	// 		return error;
+	// 	}
+	// 	return 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188';
+	// };
 
 	return (
 		<div className='w-full flex h-screen'>
@@ -70,7 +120,7 @@ const LabRegister = ({ role }) => {
 							initialValues={{
 								firstName: 'krushit',
 								lastName: 'dudhat',
-								email: 'k@gmail.com',
+								email: `k+${Math.floor(Math.random() * 100)}@gmail.com`,
 								password: '1234dfewf',
 								confirm: '12343e2322',
 								address1: '23 A, john',
@@ -86,6 +136,26 @@ const LabRegister = ({ role }) => {
 							onFinishFailed={onFinishFailed}
 							className='w-full'
 						>
+							<Form.Item
+								name='userImage'
+								label='Lab Image'
+								className='w-full'
+							>
+								<Upload
+									// action={(file) => upload(file)}
+									customRequest={customUpload}
+
+									listType="picture"
+									// fileList={}
+									// defaultFileList={[...fileList]}
+									className="picture-card"
+									maxCount={1}
+									accept='image/*'
+									// beforeUpload={(file, fileList) => getSignedURL(file, fileList)}
+								>
+									<Button icon={<UploadOutlined />}>Upload</Button>
+								</Upload>
+							</Form.Item>
 							<div className='flex justify-between'>
 								<Form.Item
 									name='firstName'
@@ -289,7 +359,7 @@ const LabRegister = ({ role }) => {
 										className='docButton w-1/2'
 										loading={loading}
 									>
-                    Sign up
+                    Lab Sign up
 									</Button>
 									<div className='flex w-full'>
 										<hr className='w-1/2 bg-gray-200 border-0 dark:bg-gray-700' />
@@ -307,6 +377,58 @@ const LabRegister = ({ role }) => {
 			</div>
 		</div>
 	);
+};
+
+const getSignedURL = async (file) => {
+	try {
+		console.log('file to be upload', file);
+		const url = await axiosConfig.post('/v1/auth/image', {
+			file: {
+				name: file.name,
+				size: file.size,
+				type: file.type,
+				uid: file.uid,
+			},
+		});
+		console.log('url', url.data);
+		return url.data;
+	} catch (error) {
+		console.log('Error', error);
+		return new Error('Error getting new URL', error);
+	}
+};
+
+const customUpload = async ({ file, onSuccess, onError }) => {
+	try {
+		const signedUrlResponse = await getSignedURL(file);
+		const signedUrl = signedUrlResponse.signedURL;
+		const newName = signedUrlResponse.file.name;
+		const response = await axios.put(
+			signedUrl,
+			file,
+			{
+				headers: {
+					'Content-Type': file.type,
+				},
+			},
+		);
+
+		if (response.status === 200) {
+			// Handle success, e.g., update UI or trigger other actions
+			console.log('Upload successful:', response);
+			onSuccess({
+				newName,
+			});
+		} else {
+			// Handle failure, e.g., show an error message
+			console.error('Upload failed:', response);
+			onError(response);
+		}
+	} catch (error) {
+		// Handle any unexpected errors
+		console.error('Unexpected error during upload:', error);
+		onError(error);
+	}
 };
 
 export { LabRegister };
