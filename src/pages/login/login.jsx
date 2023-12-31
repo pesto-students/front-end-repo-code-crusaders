@@ -71,6 +71,8 @@ export const Login = ({ role }) => {
 							className="login-form w-full space-y-10"
 							initialValues={{
 								remember: true,
+								email: 'lab1@example.com',
+								password: 'Test@123'
 							}}
 							onFinish={signinUser}
 						>
