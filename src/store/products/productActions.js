@@ -52,7 +52,9 @@ export const createProduct = createAsyncThunk('lab/product', async (body, { reje
 	try {
 		const response = await axiosConfig.post('/v1/product', body);
 
-		return await response.data;
+		const product = response.data;
+		product.active = true;
+		return product;
 	} catch (error) {
 		return rejectWithValue({
 			error: error.response.data ? error.response.message : error.message
@@ -62,9 +64,9 @@ export const createProduct = createAsyncThunk('lab/product', async (body, { reje
 
 export const updateProduct = createAsyncThunk('/lab/product/:productID', async (body, { rejectWithValue }) => {
 	try {
-		const { productId } = body;
+		const { id } = body;
 		delete body.id;
-		const response = await axiosConfig.patch(`/v1/product/${productId}`, body);
+		const response = await axiosConfig.patch(`/v1/product/${id}`, body);
 
 		return response.data;
 	} catch (error) {

@@ -16,37 +16,10 @@ const { TextArea } = Input;
 export const CreateProduct = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { loading, error, success } = useSelector((state) => state.product);
-	const [uploadURL, setUploadURL] = React.useState('');
-
-	// const [files, setFiles] = React.useState([]);
-
-	const getSignedURL = async (file, fileList) => {
-		console.log('file to be upload', file);
-		console.log('file list ', fileList);
-		try {
-			const url = await axiosConfig.post('/v1/product/image', {
-				file: {
-					name: file.name,
-					size: file.size,
-					type: file.type,
-					uid: file.uid,
-				},
-			});
-			if (url) {
-				console.log('url', url);
-				setUploadURL(() => {
-					return url.data;
-				});
-			}
-		} catch (error) {
-			console.log('Error', error);
-		}
-		return new Promise((resolve) => { setTimeout(resolve, 1000); });
-	};
+	const { loading, error, successNewEntry } = useSelector((state) => state.product);
 
 	const onFinish = (values) => {
-		// console.log('Success:', values);
+		console.log('Success:', values);
 		const body = {
 			name: values.product_name,
 			details: {
@@ -59,7 +32,7 @@ export const CreateProduct = () => {
 			mrp: values.mrp,
 			expectedDays: values.expectedDays,
 			// customFields:
-			images: values.productImg.fileList.map((file) => file.name),
+			images: values.productImg.fileList.map((file) => file.response.newName),
 		};
 
 		console.log('body', body);
@@ -68,13 +41,13 @@ export const CreateProduct = () => {
 	};
 
 	React.useEffect(() => {
-		if (success) {
+		if (successNewEntry) {
 			message.success('Product created successfully');
 			navigate('/lab/products');
 		} else if (error) {
 			message.error('Error creating new Product');
 		}
-	}, [success, error, navigate]);
+	}, [successNewEntry, error, navigate]);
 
 	const onFinishFailed = (errorInfo) => {
 		message.error(`Form validation error!${errorInfo}`);
@@ -85,24 +58,24 @@ export const CreateProduct = () => {
 
 	// }, [uploadURL]);
 
-	const upload = async (file) => {
-		console.log('got url', uploadURL);
-		try {
-			const res = await axios.put(
-				uploadURL,
-				file,
-				{
-					headers: {
-						'Content-Type': file.type,
-					},
-				},
-			);
-			console.log(res);
-		} catch (error) {
-			return error;
-		}
-		return 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188';
-	};
+	// const upload = async (file) => {
+	// 	console.log('got url', uploadURL);
+	// 	try {
+	// 		const res = await axios.put(
+	// 			uploadURL,
+	// 			file,
+	// 			{
+	// 				headers: {
+	// 					'Content-Type': file.type,
+	// 				},
+	// 			},
+	// 		);
+	// 		console.log(res);
+	// 	} catch (error) {
+	// 		return error;
+	// 	}
+	// 	return 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188';
+	// };
 
 	return (
 		<div className='w-full'>
@@ -126,7 +99,14 @@ export const CreateProduct = () => {
 								maxWidth: 600,
 							}}
 							initialValues={{
-								remember: true,
+								product_name: 'Dental Crown',
+								metal: 'Ceramic',
+								features: 'Great marginal integrity, Durable, Does not fracture, Can be used in cases of long span bridges, Does not wear out the opposing natural dentition, Minimal plaque accumulation around the prosthesis',
+								specifications: 'Posterior crowns, Bridges, Implant crowns, Crowns under partials',
+								material_composition: 'Ceramic Alloy',
+								price: 2000,
+								mrp: 2500,
+								expectedDays: '13-17'
 							}}
 							onFinish={onFinish}
 							onFinishFailed={onFinishFailed}
@@ -138,13 +118,14 @@ export const CreateProduct = () => {
 								className='w-full'
 							>
 								<Upload
-									action={(file) => upload(file)}
+									// action={(file) => upload(file)}
+									customRequest={customUpload}
 									listType="picture"
 									// defaultFileList={[...fileList]}
 									className="picture-card"
 									maxCount={3}
 									accept='image/*'
-									beforeUpload={(file, fileList) => getSignedURL(file, fileList)}
+									// beforeUpload={(file, fileList) => getSignedURL(file, fileList)}
 								>
 									<Button icon={<UploadOutlined />}>Upload</Button>
 								</Upload>
@@ -338,4 +319,56 @@ export const CreateProduct = () => {
 			</div>
 		</div>
 	);
+};
+
+const getSignedURL = async (file) => {
+	try {
+		console.log('file to be upload', file);
+		const url = await axiosConfig.post('/v1/product/image', {
+			file: {
+				name: file.name,
+				size: file.size,
+				type: file.type,
+				uid: file.uid,
+			},
+		});
+		console.log('url', url.data);
+		return url.data;
+	} catch (error) {
+		console.log('Error', error);
+		return new Error('Error getting new URL', error);
+	}
+};
+
+const customUpload = async ({ file, onSuccess, onError }) => {
+	try {
+		const signedUrlResponse = await getSignedURL(file);
+		const signedUrl = signedUrlResponse.signedURL;
+		const newName = signedUrlResponse.file.name;
+		const response = await axios.put(
+			signedUrl,
+			file,
+			{
+				headers: {
+					'Content-Type': file.type,
+				},
+			},
+		);
+
+		if (response.status === 200) {
+			// Handle success, e.g., update UI or trigger other actions
+			console.log('Upload successful:', response);
+			onSuccess({
+				newName,
+			});
+		} else {
+			// Handle failure, e.g., show an error message
+			console.error('Upload failed:', response);
+			onError(response);
+		}
+	} catch (error) {
+		// Handle any unexpected errors
+		console.error('Unexpected error during upload:', error);
+		onError(error);
+	}
 };

@@ -15,6 +15,7 @@ const initialState = {
 	tabsCount: {},
 	error: null,
 	success: false,
+	successNewEntry: false,
 };
 
 const authSlice = createSlice({
@@ -57,11 +58,12 @@ const authSlice = createSlice({
 
 		[createProduct.pending]: (state) => {
 			state.loading = true;
+			state.successNewEntry = false;
 		},
 		[createProduct.fulfilled]: (state, action) => {
 			state.loading = false;
-			state.success = true;
 			state.error = null;
+			state.successNewEntry = true;
 			state.products = [action.payload?.product, ...state.products];
 			// setTimeout(() => {
 			// 	state.success = false;
@@ -70,7 +72,7 @@ const authSlice = createSlice({
 		},
 		[createProduct.rejected]: (state, action) => {
 			state.loading = false;
-			state.success = false;
+			state.successNewEntry = false;
 			state.error = action.payload?.error;
 		},
 

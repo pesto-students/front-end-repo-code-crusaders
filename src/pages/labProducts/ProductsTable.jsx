@@ -13,6 +13,7 @@ export const ProductsTable = ({ tab }) => {
 
 	const onStatusChange = (id, key) => {
 		// const index = products.findIndex((product) => product.id === id);
+		console.log('Status change ', id);
 		const params = {
 			id,
 			active: !data[key].active,
@@ -72,7 +73,8 @@ export const ProductsTable = ({ tab }) => {
 					},
 				]}
 				defaultValue={bool}
-				onChange={() => onStatusChange(obj.id, obj.key)}
+				// eslint-disable-next-line no-underscore-dangle
+				onChange={() => onStatusChange(obj._id, obj.key)}
 			>
 			</Select>
 		);
@@ -95,7 +97,7 @@ export const ProductsTable = ({ tab }) => {
 		},
 		{
 			title: 'Details',
-			dataIndex: 'id',
+			dataIndex: '_id',
 			align: 'center',
 			render: (text, collection) => <Button
 				onClick={() => console.log(text, collection)}
