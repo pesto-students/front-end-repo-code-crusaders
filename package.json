@@ -2,6 +2,7 @@
   "name": "dentibridge-front-end",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/src",
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@babel/core": "^7.23.5",
