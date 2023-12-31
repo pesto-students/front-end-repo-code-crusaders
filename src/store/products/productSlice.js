@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	getProducts, createProduct, updateProduct, getProductCount
+	getProducts, createProduct, updateProduct, getProductCount, getProduct
 } from './productActions';
 
 const initialState = {
@@ -16,6 +16,7 @@ const initialState = {
 	error: null,
 	success: false,
 	successNewEntry: false,
+	product: null
 };
 
 const authSlice = createSlice({
@@ -43,6 +44,19 @@ const authSlice = createSlice({
 			state.error = null;
 		},
 		[getProducts.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload.error;
+		},
+
+		// Fetch single Product
+		[getProduct.pending]: (state) => {
+			state.loading = true;
+		},
+		[getProduct.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.product = action.payload;
+		},
+		[getProduct.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.payload.error;
 		},

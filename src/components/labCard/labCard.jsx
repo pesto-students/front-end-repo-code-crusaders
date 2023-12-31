@@ -27,7 +27,7 @@ const LabCard = ({ lab, className, index }) => {
 				// <EditOutlined key='edit' />,
 				<div key='view' className='text-left mx-5'>
 					<button className=' text-black bg-white docButton'
-						onClick={() => navigate(`/labs/${lab.name}`)}
+						onClick={() => navigate(`/labs/${'658997951317adbabc1f611c'}`)}
 					>
 					View Lab
 					</button> </div>,

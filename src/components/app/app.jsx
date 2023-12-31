@@ -19,9 +19,9 @@ function App() {
 					{/* private Route */}
 					<Route path='/home' exact element={<PrivateRoute component={Home} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/labs' element={<PrivateRoute component={Labs} allowedRoles={[ROLES.Doctor]} />} />
-					<Route path='/labs/:lab' element={<PrivateRoute component={Lab} allowedRoles={[ROLES.Doctor]} />} />
-					<Route path='/product' element={<PrivateRoute component={Product} allowedRoles={[ROLES.Doctor]} />} />
+					<Route path='/labs/:labID' element={<PrivateRoute component={Lab} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/product/create' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
+					<Route path='/product/:productID' element={<PrivateRoute component={Product} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/lab/products' element={<PrivateRoute component={LabProducts} allowedRoles={[ROLES.Lab]} />} />
 					{/* </Route> */}
 					<Route path='/dashboard'

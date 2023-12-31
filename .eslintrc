@@ -60,6 +60,7 @@
       "error",
       "tab"
     ],
+    "no-underscore-dangle": 0,
     "no-tabs": 0,
     "no-param-reassign": 0,
     "no-return-assign": 0,

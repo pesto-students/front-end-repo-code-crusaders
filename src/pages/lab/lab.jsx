@@ -1,10 +1,10 @@
-// import { useNavigate } from 'react-router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocationOn, CurrencyRupee } from '@mui/icons-material';
 import {
 	Card, Rate, Input, Pagination
 } from 'antd';
+import { useNavigate, useParams } from 'react-router';
 import { getProducts } from '../../store/products/productActions';
 import { Navbar } from '../../components/navbar';
 
@@ -50,9 +50,10 @@ const LabHorizontalCard = ({ className, lab }) => {
 };
 
 const ProductCard = ({ className, product }) => {
+	const navigate = useNavigate();
 	return (
 		<>
-			<div className='w-2/3 m-auto'>
+			<div className='w-2/3 m-auto cursor-pointer' onClick={() => navigate(`/product/${product._id}`)}>
 				<Card
 					className={`border-2 flex p-1 shadow-lg ${className}`}
 					cover={
@@ -113,6 +114,7 @@ const ProductCard = ({ className, product }) => {
 // ];
 
 const Lab = () => {
+	const { labID } = useParams();
 	const dispatch = useDispatch();
 	const { products, lab, pagination } = useSelector((state) => state.product);
 	const [page, setPage] = React.useState(1);
@@ -136,12 +138,12 @@ const Lab = () => {
 
 	React.useEffect(() => {
 		dispatch(getProducts({
-			lab: '658997951317adbabc1f611c',
+			lab: labID,
 			page,
 			limit: pageLimit,
 			search
 		}));
-	}, [page, dispatch, search]);
+	}, [page, dispatch, search, labID]);
 
 	React.useEffect(() => {
 		console.log('product', products);
@@ -170,7 +172,7 @@ const Lab = () => {
 				<hr className='h-px my-5 bg-gray-200 border-0 dark:bg-gray-700'></hr>
 				<div className='flex flex-col'>
 					{products && products.map((product) => {
-						return <ProductCard product={product} key={product.id} className='my-2' />;
+						return <ProductCard product={product} key={product._id} className='my-2'/>;
 					})}
 					{/* <ProductCard service={service} /> */}
 				</div>

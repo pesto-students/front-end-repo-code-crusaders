@@ -37,8 +37,8 @@ export const getProductCount = createAsyncThunk('/lab/products/count', async (_,
 
 export const getProduct = createAsyncThunk('lab/product/:productId', async (query, { rejectWithValue }) => {
 	try {
-		const productId = '';
-		const response = await axiosConfig.get(`/v1/product/${productId}`);
+		const { product } = query;
+		const response = await axiosConfig.get(`/v1/product/${product}`);
 
 		return await response.data;
 	} catch (error) {
