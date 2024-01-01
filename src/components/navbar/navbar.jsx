@@ -28,10 +28,8 @@ const Navbar = ({ visible = true }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	console.log('Navbar');
 	useEffect(() => {
 		if (error && !user && !loading) {
-			console.log('ITs GOIGN TO LOGIN');
 			navigate('/login');
 		}
 	}, [error, user, navigate, loading]);
@@ -39,7 +37,7 @@ const Navbar = ({ visible = true }) => {
 	const logoutHandler = () => {
 		dispatch(logoutUser());
 		setTimeout(() => {
-			navigate('/login');
+			navigate('/login', { state: { role: user.role } });
 		}, 3000);
 	};
 
