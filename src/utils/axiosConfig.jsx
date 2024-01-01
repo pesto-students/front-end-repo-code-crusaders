@@ -91,6 +91,8 @@ instance.interceptors.response.use((response) => {
 					originalRequest._retry = true;
 					calledOnce = false;
 				}
+			} else {
+				window.location.href = '/login';
 			}
 		}
 	}

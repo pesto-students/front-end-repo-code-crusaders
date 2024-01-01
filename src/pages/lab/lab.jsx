@@ -121,7 +121,7 @@ const Lab = () => {
 		fetchProducts();
 	}, [fetchProducts]);
 
-	if (loading && !lab) {
+	if (loading || !lab) {
 		return (
 			<div>
 				<Navbar />

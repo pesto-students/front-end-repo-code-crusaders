@@ -9,11 +9,12 @@ import { ServiceCard } from '../../components/serviceCard';
 import { FooterComp } from '../landing/footer';
 import { getLabs } from '../../store/lab/labAction';
 
+// import {} from '../../assets/doctor/'
 const services = [
-	{ name: 'Golden Cover', },
-	{ name: 'Golden Cover', },
-	{ name: 'Golden Cover', },
-	{ name: 'Golden Cover', },
+	{ name: 'Dental Crowns' },
+	{ name: 'Porcelain Veneers' },
+	{ name: 'Dentures' },
+	{ name: 'Orthodontic Appliances' },
 ];
 
 const Home = () => {
@@ -33,17 +34,6 @@ const Home = () => {
 		fetchLabs();
 	}, [fetchLabs]);
 
-	if (loading) {
-		return (
-			<div>
-				<Navbar />
-				<div className='bg-[#e8eaec] items-center flex justify-center p-20 my-20 align-middle border-2 container m-auto'>
-					<Spin size="large">
-					</Spin>
-				</div>
-			</div>
-		);
-	}
 	return (
 		<div>
 			<Navbar />
@@ -61,11 +51,25 @@ const Home = () => {
 			<div className='my-5 mb-10'>
 				<div className='container mx-auto'>
 					<div className='flex justify-evenly'>
-						{(labs && labs.lenght > 0) ? labs.map((lab, index) => <LabCard key={index} lab={lab} className='m-5'/>)
-							: <Empty
-								image={Empty.PRESENTED_IMAGE_SIMPLE}
-								description='No Active Products Found'
-							/>}
+						{
+							loading && (
+								<div className='bg-[#fbfcfd] items-center flex justify-center p-20 my-20 align-middle border-2 container m-auto'>
+									<Spin size="large">
+									</Spin>
+								</div>
+							)
+						}
+						{
+							(labs && labs.length > 0) && labs.map((lab, index) => <LabCard key={index} lab={lab} className='m-5'/>)
+						}
+						{
+							!loading && labs.lenght === 0 && (
+								<Empty
+									image={Empty.PRESENTED_IMAGE_SIMPLE}
+									description='No Active Products Found'
+								/>
+							)
+						}
 					</div>
 					<div className='flex justify-end mb-5'>
 						<NavLink to={'/labs'}>
