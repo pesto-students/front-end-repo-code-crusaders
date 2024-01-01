@@ -41,7 +41,11 @@
 	}
 
 	.docButton {
-		@apply bg-[#1A2F4E] h-10 px-5 text-white text-lg font-semibold text-center align-middle rounded-md border-black ;
+		@apply bg-[#1A2F4E] h-10 px-5 text-white text-lg font-semibold text-center align-middle rounded-md border-black;
+	}
+
+	.docButton:hover {
+		@apply bg-[#1b3f74] outline-double outline-2 outline-blue-800 shadow-md;
 	}
 }
 

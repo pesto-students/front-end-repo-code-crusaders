@@ -1,14 +1,16 @@
 // import { useDispatch, useSelector } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Tabs, Select, Table, Checkbox, Button
 } from 'antd';
 import { Navbar } from '../../components/navbar';
+import axiosConfig from '../../utils/axiosConfig';
 
 export const LabOrder = () => {
 	// const dispatch = useDispatch();
 	// const { loading } = useSelector((state) => state.auth);
-	const [activeKey, setActiveKey] = useState('tab1');
+	const [activeKey, setActiveKey] = useState('Pending');
+	const [dataSource, setDataSource] = useState([]);
 	const dropdownStyle = {
 		marginRight: 10,
 		width: 150, // Adjust width as needed
@@ -18,14 +20,43 @@ export const LabOrder = () => {
 		display: 'flex',
 		justifyContent: 'space-around',
 	};
-	const [selectedStatus, setSelectedStatus] = useState(null); // For status dropdown
-	const [selectedOrderDate, setSelectedOrderDate] = useState(null); // For order date dropdown
+	const [selectedStatus, setSelectedStatus] = useState(); // For status dropdown
+	const [selectedOrderDate, setSelectedOrderDate] = useState(null);
 
-	const handleChangeTab = (key) => {
+	const fetchData = async () => {
+		try {
+		// Make API request to fetch orders based on the selected status
+			const response = await axiosConfig.get(`http://localhost:3001/v1/orders?status=${activeKey}`);
+			const { data } = response;
+
+			// Update the state with the fetched data
+			setDataSource(data);
+			console.log('Datasource: ', data);
+		} catch (error) {
+			console.error('Error fetching orders:', error);
+		}
+	};
+
+	useEffect(() => {
+		// Call fetchData when activeKey or selectedStatus changes
+		fetchData();
+	}, [activeKey, selectedStatus]); // Dependency array for useEffect
+
+	useEffect(() => {
+		// Initial API call for "Pending" status when component mounts
+		if (activeKey === 'Pending' && dataSource.length === 0) {
+			console.log('Initial API call');
+			fetchData();
+		}
+	}, [activeKey, dataSource]); // For order date dropdown
+	const handleChangeTab = async (key) => {
 		setActiveKey(key);
 		switch (activeKey) {
-		case 'Pending':
-			return console.log('Pending');
+		case 'Pending': {
+			// const response = await axiosConfig.get(`/v1/orders?status=${key}`);
+			// const data = await response.json();
+			// setDataSource(data);
+			return console.log('Pending'); }
 		case 'Accepted':
 			return console.log('Pending');
 		case 'Ready To Ship':
@@ -131,30 +162,30 @@ export const LabOrder = () => {
 		}, // Customize page buttons
 	};
 
-	const dataSource = [
-		{
-			key: '1',
-			id: 'O111',
-			product_details: 'Metallic Cap P10',
-			order_date: '12/11/10',
-			status: 'Pending'
-		},
-		{
-			key: '2',
-			id: 'O222',
-			product_details: 'Silver Cap P10',
-			order_date: '13/11/10',
-			status: 'Accepted'
-		},
-		{
-			key: '3',
-			id: 'O333',
-			product_details: 'Frontal Denture',
-			order_date: '24/11/10',
-			status: 'Ready To Ship'
-		}
+	// const dataSource = [
+	// 	{
+	// 		key: '1',
+	// 		id: 'O111',
+	// 		product_details: 'Metallic Cap P10',
+	// 		order_date: '12/11/10',
+	// 		status: 'Pending'
+	// 	},
+	// 	{
+	// 		key: '2',
+	// 		id: 'O222',
+	// 		product_details: 'Silver Cap P10',
+	// 		order_date: '13/11/10',
+	// 		status: 'Accepted'
+	// 	},
+	// 	{
+	// 		key: '3',
+	// 		id: 'O333',
+	// 		product_details: 'Frontal Denture',
+	// 		order_date: '24/11/10',
+	// 		status: 'Ready To Ship'
+	// 	}
 
-	];
+	// ];
 	return (
 		<div>
 			<Navbar />

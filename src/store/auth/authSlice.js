@@ -11,9 +11,13 @@ const userRefreshToken = localStorage.getItem('userRefreshToken')
 	? localStorage.getItem('userRefreshToken')
 	: null;
 
+const dentiUser = localStorage.getItem('dentiUser')
+	? JSON.parse(localStorage.getItem('dentiUser'))
+	: null;
+
 const initialState = {
 	loading: false,
-	user: null,
+	user: dentiUser,
 	accessToken: userAccessToken,
 	refreshToken: userRefreshToken,
 	error: null,
@@ -27,11 +31,12 @@ const authSlice = createSlice({
 	reducers: {
 		setCredentials: (state, action) => {
 			state.user = action.payload.user;
-			state.accessToken = action.payload.tokens.access.token;
-			state.refreshToken = action.payload.tokens.refresh.token;
-
-			localStorage.setItem('userAccessToken', action.payload.tokens.access.token);
-			localStorage.setItem('userRefreshToken', action.payload.tokens.refresh.token);
+			state.accessToken = action.payload.access.token;
+			state.refreshToken = action.payload.refresh.token;
+			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
+			localStorage.setItem('userAccessToken', action.payload.access.token);
+			localStorage.setItem('userRefreshToken', action.payload.refresh.token);
+			console.log('check storage');
 		}
 	},
 	extraReducers: {
@@ -58,6 +63,7 @@ const authSlice = createSlice({
 			state.user = action.payload.user;
 			state.accessToken = action.payload.tokens.access.token;
 			state.refreshToken = action.payload.tokens.refresh.token;
+			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
 			localStorage.setItem('userAccessToken', action.payload.tokens.access.token);
 			localStorage.setItem('userRefreshToken', action.payload.tokens.refresh.token);
 			state.error = null;
@@ -75,6 +81,7 @@ const authSlice = createSlice({
 			state.user = null;
 			state.accessToken = null;
 			state.refreshToken = null;
+			localStorage.removeItem('dentiUser');
 			localStorage.removeItem('userAccessToken');
 			localStorage.removeItem('userRefreshToken');
 			state.success = true;
@@ -92,6 +99,7 @@ const authSlice = createSlice({
 			state.loading = false;
 			state.user = action.payload.user;
 			state.error = null;
+			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
 		},
 		[verifyUserDetails.rejected]: (state) => {
 			state.loading = false;

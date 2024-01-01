@@ -1,40 +1,40 @@
+/* eslint-disable no-nested-ternary */
+// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { Loading3QuartersOutlined } from '@ant-design/icons';
 import { Navbar } from '../navbar';
-import BgLogo from '../../assets/logo/bg_logo.png';
+import { LoadingPage } from '../../pages';
 
 export const PublicRoute = ({ component: Component, ...props }) => {
 	const { user, loading } = useSelector((state) => state.auth);
 
 	console.log('public route', user);
 
-	if (loading) {
-		return (
-			<div className='bg-[#CCD6E5] flex flex-col justify-center items-center h-screen'>
-				<div>
-					<img src={BgLogo} alt="Dentibridge" />
-				</div>
-				<div>
-					<Loading3QuartersOutlined spin/> Loading...
-				</div>
-			</div>
-		);
+	// if (loading) {
+	// 	return <LoadingPage />;
+	// }
+
+	// useEffect(() => {
+	if (user && props.role !== user.role) {
+		localStorage.removeItem('dentiUser');
 	}
+	// }, [user]);
 
 	return (
 		<>
 			<Navbar visible={false} />
 
 			{
-				// eslint-disable-next-line no-nested-ternary
-				user?.role === 'doctor' ? (
-					<Navigate to={{ pathname: '/home' }} />
-				) : user?.role === 'lab' ? (
-					<Navigate to={{ pathname: '/dashboard' }} />
-				) : (
-					<Component {...props} />
-				)}
+				loading ? <LoadingPage />
+					: (
+						user?.role === 'doctor' ? (
+							<Navigate to={{ pathname: '/home' }} />
+						) : user?.role === 'lab' ? (
+							<Navigate to={{ pathname: '/dashboard' }} />
+						) : (
+							<Component {...props} />
+						))
+			}
 		</>
 	);
 };
