@@ -101,7 +101,7 @@ const Lab = () => {
 	const pageLimit = 10;
 
 	console.log('total pages', pagination.totalResult);
-	const onSearch = (value, _e, info) => {
+	const onSearch = (value) => {
 		console.log(value);
 		setPage(0);
 		setSearch(value);
