@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...props }) => {
 			{
 				!user || !props?.allowedRoles?.includes(user?.role) ? (
 					<Navigate
-						to={{ pathname: '/login', state: { from: props.location } }}
+						to={{ pathname: '/login', state: { from: props.location, role: props.allowedRoles[0] } }}
 						replace
 					/>
 				) : (

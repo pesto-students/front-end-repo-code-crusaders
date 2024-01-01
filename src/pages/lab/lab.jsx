@@ -1,10 +1,10 @@
-// import { useNavigate } from 'react-router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { LocationOn, CurrencyRupee } from '@mui/icons-material';
 import {
-	Card, Rate, Input, Pagination
+	Card, Rate, Input, Pagination, Image, Spin, Empty
 } from 'antd';
+import { useNavigate, useParams } from 'react-router';
 import { getProducts } from '../../store/products/productActions';
 import { Navbar } from '../../components/navbar';
 
@@ -17,11 +17,13 @@ const LabHorizontalCard = ({ className, lab }) => {
 		<>
 			<div className='w-1/3'>
 				<Card
-					className={`border-2 flex p-2 shadow-2xl ${className}`}
+					className={`border-2 flex p-2 shadow-md ${className}`}
 					cover={
-						<img
+						<Image
 							alt='example'
-							src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+							src={lab.image}
+							height={200}
+							preview={false}
 						/>
 					}
 				>
@@ -50,16 +52,19 @@ const LabHorizontalCard = ({ className, lab }) => {
 };
 
 const ProductCard = ({ className, product }) => {
+	const navigate = useNavigate();
 	return (
 		<>
-			<div className='w-2/3 m-auto'>
+			<div className='w-2/3 m-auto cursor-pointer' onClick={() => navigate(`/product/${product._id}`)}>
 				<Card
 					className={`border-2 flex p-1 shadow-lg ${className}`}
 					cover={
-						<img
+						<Image
 							alt='example'
-							src='https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
-							className='h-full rounded-none'
+							src={product.images[0]}
+							width={250}
+							preview={false}
+							className='w-400 rounded-b-md'
 						/>
 					}
 				>
@@ -85,70 +90,48 @@ const ProductCard = ({ className, product }) => {
 	);
 };
 
-// const services = [
-// 	{
-// 		title: 'Precious (Silver)',
-// 		description: 'Get precious Silver teeth cover',
-// 		rating: 4.5,
-// 		price: '2000',
-// 	},
-// 	{
-// 		title: 'Precious (Silver)',
-// 		description: 'Get precious Silver teeth cover',
-// 		rating: 4.5,
-// 		price: '2000',
-// 	},
-// 	{
-// 		title: 'Precious (Silver)',
-// 		description: 'Get precious Silver teeth cover',
-// 		rating: 4.5,
-// 		price: '2000',
-// 	},
-// 	{
-// 		title: 'Precious (Silver)',
-// 		description: 'Get precious Silver teeth cover',
-// 		rating: 4.5,
-// 		price: '2000',
-// 	},
-// ];
-
 const Lab = () => {
+	const { labID } = useParams();
 	const dispatch = useDispatch();
-	const { products, lab, pagination } = useSelector((state) => state.product);
+	const {
+		products, lab, pagination, loading
+	} = useSelector((state) => state.product);
 	const [page, setPage] = React.useState(1);
 	const [search, setSearch] = React.useState('');
-	const pageLimit = 2;
-	// const lab = {
-	// 	name: 'Dentalline Laboratory',
-	// 	city: 'surat',
-	// 	distance: '1',
-	// 	rating: 4.2,
-	// };
+	const pageLimit = 10;
 
-	// const service = {
-	// 	title: 'Precious (Silver)',
-	// 	description: 'Get precious Silver teeth cover',
-	// 	rating: 4.5,
-	// 	price: '2000'
-	// };
 	console.log('total pages', pagination.totalResult);
-	const onSearch = (value, _e, info) => setSearch(info?.source, value);
+	const onSearch = (value) => {
+		console.log(value);
+		setPage(0);
+		setSearch(value);
+	};
 
-	React.useEffect(() => {
-		dispatch(getProducts({
-			lab: '658997951317adbabc1f611c',
-			page,
-			limit: pageLimit,
-			search
-		}));
-	}, [page, dispatch, search]);
-
-	React.useEffect(() => {
-		console.log('product', products);
-		if (products.length === 0) {
-			dispatch(getProducts({ lab: '658997951317adbabc1f611c' }));
+	const fetchProducts = React.useCallback(() => {
+		const options = {
+			lab: labID, page, limit: pageLimit
+		};
+		if (search) {
+			options.search = search;
 		}
-	}, [dispatch, products]);
+		dispatch(getProducts(options));
+	}, [dispatch, labID, page, search]);
+
+	React.useEffect(() => {
+		fetchProducts();
+	}, [fetchProducts]);
+
+	if (loading || !lab) {
+		return (
+			<div>
+				<Navbar />
+				<div className='bg-[#e8eaec] items-center flex justify-center p-20 my-20 align-middle border-2 container m-auto'>
+					<Spin size="large">
+					</Spin>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div>
@@ -169,9 +152,14 @@ const Lab = () => {
 				/>
 				<hr className='h-px my-5 bg-gray-200 border-0 dark:bg-gray-700'></hr>
 				<div className='flex flex-col'>
-					{products && products.map((product) => {
-						return <ProductCard product={product} key={product.id} className='my-2' />;
-					})}
+					{ (products && products.length > 0) ? products.map((product) => {
+						return <ProductCard product={product} key={product._id} className='my-2'/>;
+					})
+						: <Empty
+							image={Empty.PRESENTED_IMAGE_SIMPLE}
+							description='No Active Products Found'
+						/>
+					}
 					{/* <ProductCard service={service} /> */}
 				</div>
 				<Pagination

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
 	Input, Button, Checkbox, Form
@@ -11,10 +11,11 @@ import { errorToast } from '../../utils';
 import LabLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
 
-export const Login = ({ role }) => {
+export const Login = () => {
 	const { user, loading } = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const roleValue = useLocation();
 
 	useEffect(() => {
 		console.log('user', user);
@@ -28,7 +29,7 @@ export const Login = ({ role }) => {
 	}, [navigate, user]);
 
 	const navigateSignup = () => {
-		if (role === 'lab') {
+		if (roleValue.state?.role === 'lab') {
 			navigate('/register/lab');
 		} else {
 			navigate('/register/doctor');
@@ -71,7 +72,7 @@ export const Login = ({ role }) => {
 							className="login-form w-full space-y-10"
 							initialValues={{
 								remember: true,
-								email: 'lab1@example.com',
+								email: roleValue.state?.role === 'lab' ? 'lab1@example.com' : 'dkhno389@gamil.com',
 								password: 'Test@123'
 							}}
 							onFinish={signinUser}

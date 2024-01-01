@@ -343,7 +343,7 @@ const LabRegister = () => {
 										<span className='font-semibold'> OR </span>
 										<hr className='w-1/2 bg-gray-200 border-0 dark:bg-gray-700' />
 									</div>
-									<Button className='docButton w-1/2' onClick={() => navigate('/login')}>
+									<Button className='docButton w-1/2' onClick={() => navigate('/login', { state: { role: 'lab' } })}>
                     Log in
 									</Button>
 								</div>
