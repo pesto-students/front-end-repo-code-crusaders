@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	getOrders,
+	getOrders, createOrder
 } from './orderAction';
 
 const initialState = {
@@ -12,20 +12,19 @@ const initialState = {
 	},
 	error: null,
 	success: false,
+	order: null,
 };
 
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		// setProductCount: (state, action) => {
-		// 	console.log('why not update tabs balues ,,,,', action);
-		// 	state.tabsCount = action.payload;
-		// }
+
 	},
 	extraReducers: {
 		[getOrders.pending]: (state) => {
 			state.loading = true;
+			state.error = null;
 		},
 		[getOrders.fulfilled]: (state, action) => {
 			state.loading = false;
@@ -41,6 +40,23 @@ const orderSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload.error;
 		},
+
+		[createOrder.pending]: (state) => {
+			state.loading = true;
+			state.success = false;
+			state.error = null;
+		},
+		[createOrder.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.success = true;
+			state.error = null;
+			state.order = action.payload;
+		},
+		[createOrder.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload.error;
+			state.success = false;
+		}
 
 	},
 });

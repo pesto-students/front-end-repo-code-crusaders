@@ -1,18 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosConfig from '../../utils/axiosConfig';
 
-export const getOrders = createAsyncThunk('lab/products', async (query, { rejectWithValue }) => {
+export const getOrders = createAsyncThunk('orders', async (query, { rejectWithValue }) => {
 	try {
 		const sortBy = 'price';
 		const {
-			page, limit, lab, active, search
+			page, limit, status
 		} = query;
 		let queryURL = `sortBy=${sortBy}&page=${page}&limit=${limit}`;
-		queryURL += lab ? `&lab=${lab}` : '';
-		queryURL += search ? `&search=${search}` : '';
-		queryURL += active !== undefined ? `&active=${active}` : '';
+		queryURL += status !== undefined ? `&status=${status}` : '';
 
-		const response = await axiosConfig.get(`/v1/order?${queryURL}`);
+		const response = await axiosConfig.get(`/v1/orders?${queryURL}`);
 
 		return response.data;
 	} catch (error) {
@@ -36,13 +34,11 @@ export const getProductCount = createAsyncThunk('/lab/products/count', async (_,
 	}
 });
 
-export const createProduct = createAsyncThunk('lab/product', async (body, { rejectWithValue }) => {
+export const createOrder = createAsyncThunk('order/create', async (body, { rejectWithValue }) => {
 	try {
-		const response = await axiosConfig.post('/v1/product', body);
+		const response = await axiosConfig.post('/v1/orders', body);
 
-		const product = response.data;
-		product.active = true;
-		return product;
+		return response.data;
 	} catch (error) {
 		return rejectWithValue({
 			error: error.response.data ? error.response.message : error.message
