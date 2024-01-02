@@ -1,16 +1,32 @@
 // import { useDispatch, useSelector } from 'react';
 import React, { useState, useEffect } from 'react';
 import {
-	Tabs, Select, Table, Checkbox, Button
+	Tabs, Select, Table, Checkbox, Button, Modal
 } from 'antd';
 import { Navbar } from '../../components/navbar';
-import axiosConfig from '../../utils/axiosConfig';
+import instance from '../../utils/axiosConfig';
 
 export const LabOrder = () => {
 	// const dispatch = useDispatch();
 	// const { loading } = useSelector((state) => state.auth);
 	const [activeKey, setActiveKey] = useState('Pending');
 	const [dataSource, setDataSource] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedOrder, setSelectedOrder] = useState(null);
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleOrderClick = (order) => {
+		setSelectedOrder(order);
+		setIsModalOpen(true);
+	};
 	const dropdownStyle = {
 		marginRight: 10,
 		width: 150, // Adjust width as needed
@@ -34,7 +50,7 @@ export const LabOrder = () => {
 	const fetchData = async () => {
 		try {
 		// Make API request to fetch orders based on the selected status
-			const response = await axiosConfig.get(`http://localhost:3001/v1/orders?status=${activeKey}`);
+			const response = await instance.get(`http://localhost:3001/v1/orders?status=${activeKey}`);
 			const { data } = response;
 
 			// Update the state with the fetched data
@@ -89,9 +105,16 @@ export const LabOrder = () => {
 		console.log('Rejected Record: ', key);
 	};
 
-	const onChangeStatus = (key, action) => {
-		console.log('Key:', key);
-		console.log('Action: ', action);
+	const onChangeStatus = async (key, status) => {
+		try {
+			console.log('Key:', key.orderDetails.id);
+			console.log('Action: ', status);
+			const response = await instance.patch(`http://localhost:3001/v1/orders/${key.orderDetails.id}`, { status });
+			fetchData();
+			console.log(' Action response: ', response);
+		} catch (error) {
+			console.error('Error changing status:', error);
+		}
 	};
 
 	const statusOptions = [
@@ -136,6 +159,11 @@ export const LabOrder = () => {
 			title: 'Order ID',
 			dataIndex: ['orderDetails', 'id'],
 			key: 'id',
+			render: (text, record) => (
+				<span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => handleOrderClick(record)}>
+					{text}
+				</span>
+			),
 		},
 		{
 			title: 'Product Details',
@@ -156,7 +184,7 @@ export const LabOrder = () => {
 				<div style={actionColumnStyle}>
 					{actionButtons.map((action, index) => {
 						return (
-							<Button size='small' key={index} onClick={() => onChangeStatus(record.key, action)}>
+							<Button size='small' key={index} onClick={() => onChangeStatus(record, action)}>
 								{action}
 							</Button>
 						);
@@ -242,6 +270,34 @@ export const LabOrder = () => {
 						</div>
 					</div>
 					<Table dataSource={dataSource} columns={columns} pagination = { paginationOptions } />
+					{selectedOrder && (
+						<Modal title={`Order ID: ${selectedOrder.orderDetails.id}`} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+							{/* Render order details inside the modal */}
+							<div style={{ display: 'flex' }}>
+								{/* Product Details Section */}
+								<div style={{ flex: 1, marginRight: '20px' }}>
+									<h2>Product Details</h2>
+									<p>Product Name: {selectedOrder.orderDetails.product.productName}</p>
+									<p>Metal: {selectedOrder.orderDetails.product.productDetails.metal}</p>
+									<p>Features: {selectedOrder.orderDetails.product.productDetails.features}</p>
+									<p>Specification:
+										{selectedOrder.orderDetails.product.productDetails.specifications}</p>
+									<p>Material Composition:
+										{selectedOrder.orderDetails.product.productDetails.materialComposition}</p>
+									{/* Add more product details as needed */}
+								</div>
+
+								{/* Order Details Section */}
+								<div style={{ flex: 1 }}>
+									<h2>Order Details</h2>
+									<p>Order Date: {selectedOrder.orderDetails.orderDate}</p>
+									<p>Status: {selectedOrder.orderDetails.status}</p>
+									<p>Notes: {selectedOrder.orderDetails.notes}</p>
+									{/* Add more order details as needed */}
+								</div>
+							</div>
+						</Modal>
+					)}
 				</div>
 			</div>
 		</div>
