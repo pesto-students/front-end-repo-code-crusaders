@@ -23,6 +23,14 @@ export const LabOrder = () => {
 	const [selectedStatus, setSelectedStatus] = useState(); // For status dropdown
 	const [selectedOrderDate, setSelectedOrderDate] = useState(null);
 
+	const formatDate = (dateString) => {
+		const options = {
+			year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short'
+		};
+		const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
+		return formattedDate;
+	};
+
 	const fetchData = async () => {
 		try {
 		// Make API request to fetch orders based on the selected status
@@ -81,6 +89,11 @@ export const LabOrder = () => {
 		console.log('Rejected Record: ', key);
 	};
 
+	const onChangeStatus = (key, action) => {
+		console.log('Key:', key);
+		console.log('Action: ', action);
+	};
+
 	const statusOptions = [
 		{ label: 'All', value: null }, // Option for all statuses
 		{ label: 'Pending', value: 'pending' },
@@ -121,27 +134,33 @@ export const LabOrder = () => {
 		},
 		{
 			title: 'Order ID',
-			dataIndex: 'id',
+			dataIndex: ['orderDetails', 'id'],
 			key: 'id',
 		},
 		{
 			title: 'Product Details',
-			dataIndex: 'product_details',
-			key: 'product_details',
+			dataIndex: ['orderDetails', 'product', 'productName'],
+			key: 'productName',
 		},
 		{
 			title: 'Order Date',
-			dataIndex: 'order_date',
+			dataIndex: 'orderDetails.orderDate',
 			key: 'order_date',
+			render: (text, record) => formatDate(record.order_date),
 		},
 		{
 			title: 'Action',
-			dataIndex: 'actions',
+			dataIndex: 'actionButton',
 			key: 'actions',
-			render: (record) => (
-				<div style = {actionColumnStyle}>
-					<Button size='small' onClick={() => onAcceptClick(record.key)}> Accept </Button>
-					<Button size='small' onClick={() => onRejectClick(record.key)}> Reject </Button>
+			render: (actionButtons, record) => (
+				<div style={actionColumnStyle}>
+					{actionButtons.map((action, index) => {
+						return (
+							<Button size='small' key={index} onClick={() => onChangeStatus(record.key, action)}>
+								{action}
+							</Button>
+						);
+					})}
 				</div>
 			),
 		},
