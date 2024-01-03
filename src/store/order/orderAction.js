@@ -3,7 +3,7 @@ import axiosConfig from '../../utils/axiosConfig';
 
 export const getOrders = createAsyncThunk('orders', async (query, { rejectWithValue }) => {
 	try {
-		const sortBy = 'price';
+		const sortBy = 'orderDate';
 		const {
 			page, limit, status
 		} = query;
@@ -38,6 +38,23 @@ export const createOrder = createAsyncThunk('order/create', async (body, { rejec
 	try {
 		const response = await axiosConfig.post('/v1/orders', body);
 
+		return response.data;
+	} catch (error) {
+		return rejectWithValue({
+			error: error.response.data ? error.response.message : error.message
+		});
+	}
+});
+
+export const updatOrder = createAsyncThunk('/order/:orderId', async (body, { rejectWithValue }) => {
+	try {
+		const { orderId } = body;
+		const params = {
+			status: body.status
+		};
+		const response = await axiosConfig.patch(`/v1/orders/${orderId}`, params);
+
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	getOrders, createOrder
+	getOrders, createOrder, updatOrder
 } from './orderAction';
 
 const initialState = {
@@ -19,7 +19,10 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-
+		resetSuccess: (state) => {
+			state.success = false;
+			state.error = null;
+		}
 	},
 	extraReducers: {
 		[getOrders.pending]: (state) => {
@@ -56,11 +59,27 @@ const orderSlice = createSlice({
 			state.loading = false;
 			state.error = action.payload.error;
 			state.success = false;
-		}
+		},
 
+		[updatOrder.pending]: (state) => {
+			state.loading = true;
+			state.success = false;
+			state.error = null;
+		},
+		[updatOrder.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.success = true;
+			state.error = null;
+			state.orders = state.orders.filter((order) => order._id !== action.payload._id);
+		},
+		[updatOrder.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload.error;
+			state.success = false;
+		}
 	},
 });
 
 export default orderSlice.reducer;
 
-// export const { setProductCount } = authSlice.actions;
+export const { resetSuccess } = orderSlice.actions;
