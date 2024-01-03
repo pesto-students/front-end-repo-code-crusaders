@@ -1,14 +1,32 @@
 // import { useDispatch, useSelector } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-	Tabs, Select, Table, Checkbox, Button
+	Tabs, Select, Table, Checkbox, Button, Modal
 } from 'antd';
 import { Navbar } from '../../components/navbar';
+import instance from '../../utils/axiosConfig';
 
 export const LabOrder = () => {
 	// const dispatch = useDispatch();
 	// const { loading } = useSelector((state) => state.auth);
-	const [activeKey, setActiveKey] = useState('tab1');
+	const [activeKey, setActiveKey] = useState('Pending');
+	const [dataSource, setDataSource] = useState([]);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedOrder, setSelectedOrder] = useState(null);
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
+
+	const handleOrderClick = (order) => {
+		setSelectedOrder(order);
+		setIsModalOpen(true);
+	};
 	const dropdownStyle = {
 		marginRight: 10,
 		width: 150, // Adjust width as needed
@@ -18,14 +36,51 @@ export const LabOrder = () => {
 		display: 'flex',
 		justifyContent: 'space-around',
 	};
-	const [selectedStatus, setSelectedStatus] = useState(null); // For status dropdown
-	const [selectedOrderDate, setSelectedOrderDate] = useState(null); // For order date dropdown
+	const [selectedStatus, setSelectedStatus] = useState(); // For status dropdown
+	const [selectedOrderDate, setSelectedOrderDate] = useState(null);
 
-	const handleChangeTab = (key) => {
+	const formatDate = (dateString) => {
+		const options = {
+			year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short'
+		};
+		const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
+		return formattedDate;
+	};
+
+	const fetchData = async () => {
+		try {
+		// Make API request to fetch orders based on the selected status
+			const response = await instance.get(`http://localhost:3001/v1/orders?status=${activeKey}`);
+			const { data } = response;
+
+			// Update the state with the fetched data
+			setDataSource(data);
+			console.log('Datasource: ', data);
+		} catch (error) {
+			console.error('Error fetching orders:', error);
+		}
+	};
+
+	useEffect(() => {
+		// Call fetchData when activeKey or selectedStatus changes
+		fetchData();
+	}, [activeKey, selectedStatus]); // Dependency array for useEffect
+
+	useEffect(() => {
+		// Initial API call for "Pending" status when component mounts
+		if (activeKey === 'Pending' && dataSource.length === 0) {
+			console.log('Initial API call');
+			fetchData();
+		}
+	}, [activeKey, dataSource]); // For order date dropdown
+	const handleChangeTab = async (key) => {
 		setActiveKey(key);
 		switch (activeKey) {
-		case 'Pending':
-			return console.log('Pending');
+		case 'Pending': {
+			// const response = await axiosConfig.get(`/v1/orders?status=${key}`);
+			// const data = await response.json();
+			// setDataSource(data);
+			return console.log('Pending'); }
 		case 'Accepted':
 			return console.log('Pending');
 		case 'Ready To Ship':
@@ -48,6 +103,18 @@ export const LabOrder = () => {
 
 	const onRejectClick = (key) => {
 		console.log('Rejected Record: ', key);
+	};
+
+	const onChangeStatus = async (key, status) => {
+		try {
+			console.log('Key:', key.orderDetails.id);
+			console.log('Action: ', status);
+			const response = await instance.patch(`http://localhost:3001/v1/orders/${key.orderDetails.id}`, { status });
+			fetchData();
+			console.log(' Action response: ', response);
+		} catch (error) {
+			console.error('Error changing status:', error);
+		}
 	};
 
 	const statusOptions = [
@@ -90,27 +157,38 @@ export const LabOrder = () => {
 		},
 		{
 			title: 'Order ID',
-			dataIndex: 'id',
+			dataIndex: ['orderDetails', 'id'],
 			key: 'id',
+			render: (text, record) => (
+				<span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => handleOrderClick(record)}>
+					{text}
+				</span>
+			),
 		},
 		{
 			title: 'Product Details',
-			dataIndex: 'product_details',
-			key: 'product_details',
+			dataIndex: ['orderDetails', 'product', 'productName'],
+			key: 'productName',
 		},
 		{
 			title: 'Order Date',
-			dataIndex: 'order_date',
+			dataIndex: 'orderDetails.orderDate',
 			key: 'order_date',
+			render: (text, record) => formatDate(record.order_date),
 		},
 		{
 			title: 'Action',
-			dataIndex: 'actions',
+			dataIndex: 'actionButton',
 			key: 'actions',
-			render: (record) => (
-				<div style = {actionColumnStyle}>
-					<Button size='small' onClick={() => onAcceptClick(record.key)}> Accept </Button>
-					<Button size='small' onClick={() => onRejectClick(record.key)}> Reject </Button>
+			render: (actionButtons, record) => (
+				<div style={actionColumnStyle}>
+					{actionButtons.map((action, index) => {
+						return (
+							<Button size='small' key={index} onClick={() => onChangeStatus(record, action)}>
+								{action}
+							</Button>
+						);
+					})}
 				</div>
 			),
 		},
@@ -131,30 +209,30 @@ export const LabOrder = () => {
 		}, // Customize page buttons
 	};
 
-	const dataSource = [
-		{
-			key: '1',
-			id: 'O111',
-			product_details: 'Metallic Cap P10',
-			order_date: '12/11/10',
-			status: 'Pending'
-		},
-		{
-			key: '2',
-			id: 'O222',
-			product_details: 'Silver Cap P10',
-			order_date: '13/11/10',
-			status: 'Accepted'
-		},
-		{
-			key: '3',
-			id: 'O333',
-			product_details: 'Frontal Denture',
-			order_date: '24/11/10',
-			status: 'Ready To Ship'
-		}
+	// const dataSource = [
+	// 	{
+	// 		key: '1',
+	// 		id: 'O111',
+	// 		product_details: 'Metallic Cap P10',
+	// 		order_date: '12/11/10',
+	// 		status: 'Pending'
+	// 	},
+	// 	{
+	// 		key: '2',
+	// 		id: 'O222',
+	// 		product_details: 'Silver Cap P10',
+	// 		order_date: '13/11/10',
+	// 		status: 'Accepted'
+	// 	},
+	// 	{
+	// 		key: '3',
+	// 		id: 'O333',
+	// 		product_details: 'Frontal Denture',
+	// 		order_date: '24/11/10',
+	// 		status: 'Ready To Ship'
+	// 	}
 
-	];
+	// ];
 	return (
 		<div>
 			<Navbar />
@@ -192,6 +270,34 @@ export const LabOrder = () => {
 						</div>
 					</div>
 					<Table dataSource={dataSource} columns={columns} pagination = { paginationOptions } />
+					{selectedOrder && (
+						<Modal title={`Order ID: ${selectedOrder.orderDetails.id}`} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+							{/* Render order details inside the modal */}
+							<div style={{ display: 'flex' }}>
+								{/* Product Details Section */}
+								<div style={{ flex: 1, marginRight: '20px' }}>
+									<h2>Product Details</h2>
+									<p>Product Name: {selectedOrder.orderDetails.product.productName}</p>
+									<p>Metal: {selectedOrder.orderDetails.product.productDetails.metal}</p>
+									<p>Features: {selectedOrder.orderDetails.product.productDetails.features}</p>
+									<p>Specification:
+										{selectedOrder.orderDetails.product.productDetails.specifications}</p>
+									<p>Material Composition:
+										{selectedOrder.orderDetails.product.productDetails.materialComposition}</p>
+									{/* Add more product details as needed */}
+								</div>
+
+								{/* Order Details Section */}
+								<div style={{ flex: 1 }}>
+									<h2>Order Details</h2>
+									<p>Order Date: {selectedOrder.orderDetails.orderDate}</p>
+									<p>Status: {selectedOrder.orderDetails.status}</p>
+									<p>Notes: {selectedOrder.orderDetails.notes}</p>
+									{/* Add more order details as needed */}
+								</div>
+							</div>
+						</Modal>
+					)}
 				</div>
 			</div>
 		</div>
