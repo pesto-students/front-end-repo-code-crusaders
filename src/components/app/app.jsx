@@ -2,8 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 import { PrivateRoute } from '../privateRoute';
 import { PublicRoute } from '../publicRoute';
 import {
-	// eslint-disable-next-line max-len
-	Labs, Login, Landing, Register, LabRegister, Home, NotFound, Lab, Product, CreateProduct, LabOrder, LabProducts
+	Landing, NotFound,
+	Register, LabRegister, Login,
+	Home, Lab, Product, Orders, Labs,
+	CreateProduct, LabOrder, LabProducts,
 } from '../../pages';
 
 const ROLES = {
@@ -23,6 +25,8 @@ function App() {
 					<Route path='/product/create' element={<PrivateRoute component={CreateProduct} allowedRoles={[ROLES.Lab]} />} />
 					<Route path='/product/:productID' element={<PrivateRoute component={Product} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/lab/products' element={<PrivateRoute component={LabProducts} allowedRoles={[ROLES.Lab]} />} />
+					<Route path='/orders' element={<PrivateRoute component={Orders} allowedRoles={[ROLES.Doctor]} />} />
+					<Route path='/lab/orders' element={<PrivateRoute component={LabOrder} allowedRoles={[ROLES.Lab]} />} />
 					{/* </Route> */}
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Lab]} />} />
@@ -40,10 +44,6 @@ function App() {
 					<Route
 						path='/register/doctor' exact
 						element={<PublicRoute restricted={true} component={Register} />}
-					/>
-					<Route
-						path ='/lab/orders' exact
-						element={<PublicRoute restricted={true} component={LabOrder} /> }
 					/>
 					<Route
 						path='/register/lab' exact
