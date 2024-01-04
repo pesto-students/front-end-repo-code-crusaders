@@ -109,8 +109,15 @@ export const ProductsTable = ({ tab }) => {
 		total: products.length,
 		pageSize: 10, // Adjust the pageSize as per your requirements
 
-		// showSizeChanger: true,
-		// showQuickJumper: true,
+		itemRender: (page, type, originalElement) => {
+			if (type === 'prev') {
+				return <Button type='ghost'>Previous</Button>;
+			}
+			if (type === 'next') {
+				return <Button type='ghost'>Next</Button>;
+			}
+			return originalElement;
+		}, // Customize page buttons
 		onChange: (newPage) => setPage(newPage),
 	};
 

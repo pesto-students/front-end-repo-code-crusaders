@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-	Tabs, Modal
+	Tabs
 } from 'antd';
 import { Navbar } from '../../components/navbar';
 import { OrdersTable } from './OrdersTable';

@@ -10,10 +10,11 @@ import { resetSuccess } from '../../store/order/orderSlice';
 export const OrdersTable = ({ status }) => {
 	const dispatch = useDispatch();
 	const {
-		loading, orders, pagination, success, error
+		orders, pagination, success, error
 	} = useSelector(
 		(state) => state.order
 	);
+	const [dataSource, setDataSource] = useState([]);
 	const [page, setPage] = useState(1);
 
 	const [open, setOpen] = useState(false);
@@ -36,6 +37,10 @@ export const OrdersTable = ({ status }) => {
 		setSelectedOrder(order);
 		setOpen(true);
 	};
+
+	useEffect(() => {
+		setDataSource(orders);
+	}, [orders]);
 
 	const fetchOrders = useCallback(() => {
 		const query = {
@@ -146,7 +151,7 @@ export const OrdersTable = ({ status }) => {
 	return (
 		<div>
 			<Table
-				dataSource={orders}
+				dataSource={dataSource}
 				columns={columns}
 				pagination={paginationOptions}
 			/>
