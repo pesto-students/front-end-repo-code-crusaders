@@ -27,7 +27,6 @@ const labSlice = createSlice({
 		},
 		[getLabs.fulfilled]: (state, action) => {
 			state.loading = false;
-			console.log('action', action.payload);
 			state.pagination = {
 				totalPages: action.payload.totalPages,
 				totalResult: action.payload.totalResults,

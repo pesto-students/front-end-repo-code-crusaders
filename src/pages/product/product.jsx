@@ -34,11 +34,8 @@ const Product = () => {
 			lab: product.lab._id,
 			notes: specification,
 		};
-		console.log(orderParam);
 		dispatch(createOrder(orderParam));
 	};
-
-	console.log('product', product);
 
 	if (loading || !product) {
 		return (
@@ -162,7 +159,6 @@ const SpecificationModal = ({
 	};
 
 	const handleCancel = () => {
-		console.log('Clicked cancel button');
 		setOpen(false);
 	};
 

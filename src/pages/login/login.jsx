@@ -36,12 +36,7 @@ export const Login = () => {
 		}
 	};
 
-	// const onFinish = () => {
-	// 	console.log('Received values of form: ');
-	// };
 	const signinUser = async (values) => {
-		// e.preventDefault();
-
 		dispatch(
 			loginUser({
 				email: values.email,
@@ -53,11 +48,6 @@ export const Login = () => {
 				errorToast(errorData.error);
 			});
 	};
-	// const onFinish = (values) => {
-	// 	console.log('Received values of form: ', values);
-	// 	console.log('EMail: ', values.email);
-	// 	console.log('Password: ', values.password);
-	// };
 
 	return (
 		<div className='w-full flex h-screen'>

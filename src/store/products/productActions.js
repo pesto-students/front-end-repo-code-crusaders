@@ -25,8 +25,6 @@ export const getProducts = createAsyncThunk('lab/products', async (query, { reje
 export const getProductCount = createAsyncThunk('/lab/products/count', async (_, { rejectWithValue }) => {
 	try {
 		const response = await axiosConfig.get('/v1/product/count');
-		// console.log('tabs balues ,,,,', response.data);
-		// const count = response.data;
 
 		return response.data;
 	} catch (error) {

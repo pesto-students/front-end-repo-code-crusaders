@@ -118,8 +118,6 @@ export const OrdersTable = ({ status }) => {
 			key: 'actions',
 			align: 'center',
 			render: (actions, record) => {
-				console.log('what actions', actions);
-				console.log('record we got', record);
 				return (
 					<div className='flex justify-center '>
 						{actions && actions.length > 0 && actions.map((action, index) => (

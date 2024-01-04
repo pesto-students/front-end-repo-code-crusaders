@@ -31,7 +31,6 @@ const orderSlice = createSlice({
 		},
 		[getOrders.fulfilled]: (state, action) => {
 			state.loading = false;
-			console.log('action', action.payload);
 			state.pagination = {
 				totalPages: action.payload.totalPages,
 				totalResult: action.payload.totalResults,

@@ -58,7 +58,6 @@ export const Register = () => {
 
 	const onFinishFailed = (errorInfo) => {
 		message.error(`Form validation error!${errorInfo}`);
-		console.log('Failed:', errorInfo);
 
 		return false;
 	};
