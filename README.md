@@ -68,3 +68,22 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Project Details
+
+Name: Denti Bridge
+Description: A common platform for communication between dentist and lab vendors and to ease out them.
+Tech Stack : Frontend(HTML, TailwindCSS, Antd, ReactJS, Amazon S3)
+
+
+### Project installation
+
+Clone the repo from github
+Run npm i command to setup the project and download dependencies
+
+### Project Setup
+Create .env file in main folder structure and add host on which react project will run  
+For example to run locally "REACT_APP_BACKEND_URL" = "http://localhost:3001"
+
+
+
