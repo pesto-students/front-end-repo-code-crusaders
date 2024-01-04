@@ -41,6 +41,12 @@ const Navbar = ({ visible = true }) => {
 		}, 3000);
 	};
 
+	// const checkOrders = () => {
+	// 	console.log('move to orders');
+	// 	navigate('/orders');
+	// 	console.log('still here');
+	// };
+
 	if (!visible) {
 		return <></>;
 	}
@@ -88,6 +94,13 @@ const Navbar = ({ visible = true }) => {
 			],
 		}
 	];
+
+	if (user && user.role === 'doctor') {
+		items[0].children[0].children.push({
+			label: <NavLink to='/orders'>Orders</NavLink>,
+			key: 'profile:orders',
+		});
+	}
 
 	return (
 		<header className='bg-[#1A2F4E]'>

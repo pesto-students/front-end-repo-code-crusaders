@@ -9,6 +9,7 @@ export { Home } from './home';
 export { Labs } from './labs';
 export { Lab } from './lab';
 export { Product } from './product';
+export { Orders } from './orders';
 
 export { LabProducts } from './labProducts';
 export { LabOrder } from './labOrder';

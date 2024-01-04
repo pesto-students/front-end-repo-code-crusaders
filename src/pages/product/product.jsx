@@ -1,5 +1,5 @@
 import {
-	Image, Card, Modal, Button, Spin
+	Image, Card, Modal, Button, Spin, Form, Input
 } from 'antd';
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyRupee } from '@mui/icons-material';
 import { Navbar } from '../../components/navbar';
 import { getProduct } from '../../store/products/productActions';
+import { createOrder } from '../../store/order/orderAction';
 
 const Product = () => {
 	const { productID } = useParams();
 	const dispatch = useDispatch();
 	const { loading, product } = useSelector((state) => state.product);
 	const [open, setOpen] = useState(false);
+	const [specification, setSpecification] = useState('');
 
 	const showModal = () => {
 		setOpen(true);
@@ -25,6 +27,16 @@ const Product = () => {
 			})
 		);
 	}, [dispatch, productID]);
+
+	const makeOrder = () => {
+		const orderParam = {
+			product: product._id,
+			lab: product.lab._id,
+			notes: specification,
+		};
+		console.log(orderParam);
+		dispatch(createOrder(orderParam));
+	};
 
 	console.log('product', product);
 
@@ -88,13 +100,6 @@ const Product = () => {
 										{product.details.features.split(',').map((feature, i) => {
 											return <li key={i} className='text-md'> {feature.trim()} </li>;
 										})}
-										{/* <li className=''>Great marginal integrity </li>
-										<li>Durable</li>
-										<li>Does not fracture</li>
-										<li>can be used in cases of long span bridges </li>
-										<li>dentition</li>
-										<li>Does not wear out the opposing natural</li>
-										<li>Minimal plaque accumulation around the prosthesis</li> */}
 									</ul>
 								</pre>
 							</Card>
@@ -108,10 +113,6 @@ const Product = () => {
 										{product.details.specifications.split(',').map((spec, i) => {
 											return <li key={i} className='text-md'>Posterior crowns </li>;
 										})}
-										{/* <li className=''>Posterior crowns </li>
-										<li>bridges</li>
-										<li>Does not fracture</li>
-										<li>can be used in cases of long span bridges </li> */}
 									</ul>
 								</pre>
 							</Card>
@@ -129,24 +130,30 @@ const Product = () => {
 							</Card>
 
 							<div className='flex space-x-4'>
-								<button className='docButton'> Order </button>
+								<button className='docButton' onClick={makeOrder}> Order </button>
 								<Button className='docButton' onClick={showModal}> Fill Details </Button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<SpecificationModal open={open} setOpen={setOpen} />
+			<SpecificationModal
+				open={open} setOpen={setOpen}
+				specification={specification} setSpecification={setSpecification}
+			/>
 		</div>
 	);
 };
 
-const SpecificationModal = ({ open, setOpen }) => {
+const SpecificationModal = ({
+	open, setOpen, specification, setSpecification
+}) => {
 	const [loading, setLoading] = useState(false);
-	const [modalText, setModalText] = useState('Content of the modal');
+	const [modalText, setModalText] = useState(specification);
 
 	const handleOk = () => {
-		setModalText('The modal will be closed after two seconds');
+		// setModalText('The modal will be closed after two seconds');
+		setSpecification(modalText);
 		setLoading(true);
 		setTimeout(() => {
 			setOpen(false);
@@ -159,24 +166,38 @@ const SpecificationModal = ({ open, setOpen }) => {
 		setOpen(false);
 	};
 
+	const handleTextareaChange = (e) => {
+		setModalText(e.target.value);
+	};
 	return (
-		<Modal
-			title="Details"
-			open={open}
-			onOk={handleOk}
-			confirmLoading={loading}
-			onCancel={handleCancel}
-			footer={[
-				<Button key="back" onClick={handleCancel} className='docButton'>
+		<>
+			<Modal
+				title="Details"
+				open={open}
+				onOk={handleOk}
+				confirmLoading={loading}
+				onCancel={handleCancel}
+				footer={[
+					<Button key="back" onClick={handleCancel} className='docButton'>
             Return
-				</Button>,
-				<Button key="submit" loading={loading} onClick={handleOk} className='docButton'>
+					</Button>,
+					<Button key="submit" loading={loading} onClick={handleOk} className='docButton'>
             Submit
-				</Button>,
-			]}
-		>
-			<p>{modalText}</p>
-		</Modal>
+					</Button>,
+				]}
+			>
+				<Form>
+					<Form.Item
+						name='notes'
+					>
+						<Input.TextArea
+							onChange={handleTextareaChange}
+							defaultValue={modalText}
+						/>
+					</Form.Item>
+				</Form>
+			</Modal>
+		</>
 	);
 };
 

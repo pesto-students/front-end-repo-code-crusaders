@@ -72,7 +72,7 @@ export const Login = () => {
 							className="login-form w-full space-y-10"
 							initialValues={{
 								remember: true,
-								email: roleValue.state?.role === 'lab' ? 'lab1@example.com' : 'dkhno389@gamil.com',
+								email: roleValue.state?.role === 'lab' ? 'lab1@example.com' : 'dkhno389@gmail.com',
 								password: 'Test@123'
 							}}
 							onFinish={signinUser}
