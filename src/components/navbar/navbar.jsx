@@ -23,9 +23,7 @@ const Navbar = ({ visible = true }) => {
 		if (accessToken) {
 			dispatch(verifyUserDetails());
 		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, accessToken]);
 
 	useEffect(() => {
 		if (error && !user && !loading) {
