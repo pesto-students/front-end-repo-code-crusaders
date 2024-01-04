@@ -4,18 +4,6 @@ import axiosConfig from '../../utils/axiosConfig';
 export const registerUser = createAsyncThunk('user/register', async ({ body, role }, { rejectWithValue }) => {
 	try {
 		let response;
-		// {
-		// 		email,
-		// 		password,
-		// 		firstname: 'krushit',
-		// 		lastname: 'dudhat',
-		// 		doctorID: 'doc123',
-		// 		hospital: 'hospital',
-		// 		addressLine1: '12, address line 1',
-		// 		landmark: 'near landmark',
-		// 		city: 'surat',
-		// 		state: 'Gujarat',
-		// 	}
 		if (role === 'doctor') {
 			response = await axiosConfig.post('/v1/auth/doctor/register', body);
 		} else {

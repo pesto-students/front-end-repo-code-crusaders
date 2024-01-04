@@ -1,11 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	Input, Button, Form, message
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { errorToast, successToast } from '../../utils';
 import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
 import { registerUser } from '../../store/auth/authActions';
@@ -36,7 +34,6 @@ export const Register = () => {
 	}, [error, success, navigate]);
 
 	const onFinish = (values) => {
-		console.log('form ', values);
 		const params = {
 			firstname: values.firstName,
 			lastname: values.lastName,
@@ -103,7 +100,6 @@ export const Register = () => {
 								country: 'india',
 								pincode: '234598',
 								doctorId: '2335432523',
-								remember: true,
 							}}
 							onFinish={onFinish}
 							onFinishFailed={onFinishFailed}

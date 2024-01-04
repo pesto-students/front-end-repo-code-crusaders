@@ -12,7 +12,6 @@ const { Meta } = Card;
 
 const LabCard = ({ lab, className, index }) => {
 	const navigate = useNavigate();
-	console.log('Lab Card prop', index);
 	return (
 		<Card
 			className={`border-2 w-80 p-2 shadow-2xl ${className}`}

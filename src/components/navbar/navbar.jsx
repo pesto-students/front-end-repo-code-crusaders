@@ -20,7 +20,6 @@ const Navbar = ({ visible = true }) => {
 	};
 
 	useEffect(() => {
-		console.log('called');
 		if (accessToken) {
 			dispatch(verifyUserDetails());
 		}
@@ -40,12 +39,6 @@ const Navbar = ({ visible = true }) => {
 			navigate('/login', { state: { role: user.role } });
 		}, 3000);
 	};
-
-	// const checkOrders = () => {
-	// 	console.log('move to orders');
-	// 	navigate('/orders');
-	// 	console.log('still here');
-	// };
 
 	if (!visible) {
 		return <></>;
