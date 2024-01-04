@@ -23,10 +23,7 @@ const productSlice = createSlice({
 	name: 'product',
 	initialState,
 	reducers: {
-		// setProductCount: (state, action) => {
-		// 	console.log('why not update tabs balues ,,,,', action);
-		// 	state.tabsCount = action.payload;
-		// }
+
 	},
 	extraReducers: {
 		[getProducts.pending]: (state) => {
@@ -34,7 +31,6 @@ const productSlice = createSlice({
 		},
 		[getProducts.fulfilled]: (state, action) => {
 			state.loading = false;
-			console.log('action', action.payload);
 			state.pagination = {
 				totalPages: action.payload.totalPages,
 				totalResult: action.payload.totalResults,

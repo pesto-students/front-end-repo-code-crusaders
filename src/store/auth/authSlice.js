@@ -36,7 +36,6 @@ const authSlice = createSlice({
 			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
 			localStorage.setItem('userAccessToken', action.payload.access.token);
 			localStorage.setItem('userRefreshToken', action.payload.refresh.token);
-			console.log('check storage');
 		}
 	},
 	extraReducers: {

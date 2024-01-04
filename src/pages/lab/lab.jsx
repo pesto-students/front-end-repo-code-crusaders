@@ -100,9 +100,7 @@ const Lab = () => {
 	const [search, setSearch] = React.useState('');
 	const pageLimit = 10;
 
-	console.log('total pages', pagination.totalResult);
 	const onSearch = (value) => {
-		console.log(value);
 		setPage(0);
 		setSearch(value);
 	};
@@ -169,7 +167,6 @@ const Lab = () => {
 					defaultPageSize={pageLimit}
 					// responsive={true}
 					onChange={(newPage) => {
-						console.log('page change', newPage);
 						return setPage(newPage);
 					}}
 					className='flex justify-center items-center my-5'

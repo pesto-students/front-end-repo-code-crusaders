@@ -8,17 +8,9 @@ import { LoadingPage } from '../../pages';
 export const PublicRoute = ({ component: Component, ...props }) => {
 	const { user, loading } = useSelector((state) => state.auth);
 
-	console.log('public route', user);
-
-	// if (loading) {
-	// 	return <LoadingPage />;
-	// }
-
-	// useEffect(() => {
 	if (user && props.role !== user.role) {
 		localStorage.removeItem('dentiUser');
 	}
-	// }, [user]);
 
 	return (
 		<>

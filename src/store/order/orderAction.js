@@ -23,8 +23,6 @@ export const getOrders = createAsyncThunk('orders', async (query, { rejectWithVa
 export const getProductCount = createAsyncThunk('/lab/products/count', async (_, { rejectWithValue }) => {
 	try {
 		const response = await axiosConfig.get('/v1/product/count');
-		// console.log('tabs balues ,,,,', response.data);
-		// const count = response.data;
 
 		return response.data;
 	} catch (error) {
@@ -54,7 +52,6 @@ export const updatOrder = createAsyncThunk('/order/:orderId', async (body, { rej
 		};
 		const response = await axiosConfig.patch(`/v1/orders/${orderId}`, params);
 
-		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({

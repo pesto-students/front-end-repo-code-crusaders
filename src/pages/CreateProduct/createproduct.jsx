@@ -11,7 +11,6 @@ import { Navbar } from '../../components/navbar';
 import axiosConfig from '../../utils/axiosConfig';
 
 const { TextArea } = Input;
-// const { Option } = Select;
 
 export const CreateProduct = () => {
 	const dispatch = useDispatch();
@@ -19,7 +18,6 @@ export const CreateProduct = () => {
 	const { loading, error, successNewEntry } = useSelector((state) => state.product);
 
 	const onFinish = (values) => {
-		console.log('Success:', values);
 		const body = {
 			name: values.product_name,
 			details: {
@@ -35,9 +33,7 @@ export const CreateProduct = () => {
 			images: values.productImg.fileList.map((file) => file.response.newName),
 		};
 
-		console.log('body', body);
 		dispatch(createProduct(body));
-		// console.log('Files', files);
 	};
 
 	React.useEffect(() => {
@@ -53,29 +49,6 @@ export const CreateProduct = () => {
 		message.error(`Form validation error!${errorInfo}`);
 		console.log('Failed:', errorInfo);
 	};
-
-	// React.useEffect(() => {
-
-	// }, [uploadURL]);
-
-	// const upload = async (file) => {
-	// 	console.log('got url', uploadURL);
-	// 	try {
-	// 		const res = await axios.put(
-	// 			uploadURL,
-	// 			file,
-	// 			{
-	// 				headers: {
-	// 					'Content-Type': file.type,
-	// 				},
-	// 			},
-	// 		);
-	// 		console.log(res);
-	// 	} catch (error) {
-	// 		return error;
-	// 	}
-	// 	return 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188';
-	// };
 
 	return (
 		<div className='w-full'>
@@ -118,21 +91,17 @@ export const CreateProduct = () => {
 								className='w-full'
 							>
 								<Upload
-									// action={(file) => upload(file)}
 									customRequest={customUpload}
 									listType="picture"
-									// defaultFileList={[...fileList]}
 									className="picture-card"
 									maxCount={3}
 									accept='image/*'
-									// beforeUpload={(file, fileList) => getSignedURL(file, fileList)}
 								>
 									<Button icon={<UploadOutlined />}>Upload</Button>
 								</Upload>
 							</Form.Item>
 							<Form.Item
 								name='product_name'
-								// label='Product Name'
 								rules={[
 									{
 										required: true,
@@ -147,7 +116,6 @@ export const CreateProduct = () => {
 							</Form.Item>
 							<Form.Item
 								name='metal'
-								// label='Metal'
 								rules={[
 									{
 										required: true,
@@ -162,7 +130,6 @@ export const CreateProduct = () => {
 							</Form.Item>
 							<Form.Item
 								name='features'
-								// label='Features'
 								rules={[
 									{
 										required: true,
@@ -179,7 +146,6 @@ export const CreateProduct = () => {
 							</Form.Item>
 							<Form.Item
 								name='specifications'
-								// label='Specifications'
 								rules={[
 									{
 										required: true,
@@ -196,7 +162,6 @@ export const CreateProduct = () => {
 							</Form.Item>
 							<Form.Item
 								name='material_composition'
-								// label='Material Composition'
 								rules={[
 									{
 										required: true,
@@ -214,7 +179,6 @@ export const CreateProduct = () => {
 								<Tooltip title='Selling Price mush be less then MRP.'>
 									<Form.Item
 										name='price'
-										// label='Price'
 										rules={[
 											{
 												required: true,
@@ -234,7 +198,6 @@ export const CreateProduct = () => {
 								</Tooltip>
 								<Form.Item
 									name='mrp'
-									// label='MRP'
 									rules={[
 										{
 											required: true,
@@ -258,7 +221,6 @@ export const CreateProduct = () => {
 
 							<Form.Item
 								name='expectedDays'
-								// label='Expected Days'
 								rules={[
 									{
 										required: true,
@@ -270,23 +232,10 @@ export const CreateProduct = () => {
 									}
 								]}
 							>
-								{/* <InputNumber
-									placeholder='Expected Delivery Days'
-									className=' border-1 border-black p-1 w-1/2'
-									min={1}
-									max={15}
-									size={100}
-								/> */}
 								<Select
 									placeholder='Expected Delivery Days'
-									// style={{
-									// 	borderColor: 'black',
-									// 	bordersize: '1px',
-
-									// }}
 									bordered={true}
 									className='border-1 border-black'
-									// onChange={handleChange}
 									options={[
 										{ value: '2-5', label: '2-5 Days' },
 										{ value: '4-8', label: '4-8 Days' },
@@ -296,12 +245,6 @@ export const CreateProduct = () => {
 								/>
 							</Form.Item>
 							<Form.Item
-								wrapperCol={
-									{
-										// offset: 8,
-										// span: 16,
-									}
-								}
 								className='text-left '
 							>
 								<Button
