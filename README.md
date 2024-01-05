@@ -1,6 +1,20 @@
-# Getting Started with Create React App
+### Denti Bridge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## A common platform for communication between dentist and lab vendors and to ease out them.
+
+Tech Stack : Frontend(HTML, TailwindCSS, Antd, ReactJS, Amazon S3)
+
+
+### Local setup
+
+```
+git clone https://github.com/pesto-students/front-end-repo-code-crusaders.git
+cd front-end-repo-code-crusaders/
+npm install
+```
+create .env file and add below values
+
+REACT_APP_BACKEND_URL=http://localhost:3001
 
 ## Available Scripts
 
@@ -39,51 +53,11 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
 ### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### Project Details
-
-Name: Denti Bridge
-Description: A common platform for communication between dentist and lab vendors and to ease out them.
-Tech Stack : Frontend(HTML, TailwindCSS, Antd, ReactJS, Amazon S3)
-
-
-### Project installation
-
-Clone the repo from github
-Run npm i command to setup the project and download dependencies
-
-### Project Setup
-Create .env file in main folder structure and add host on which react project will run  
-For example to run locally "REACT_APP_BACKEND_URL" = "http://localhost:3001"
-
-
+ci-cd pipeline for netlify setup in .github folder. 
+Include below values to github secrets. 
+```
+NETLIFY_AUTH_TOKEN=xxx
+NETLIFY_SITE_ID=xxx
+```
 
