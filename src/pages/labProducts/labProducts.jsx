@@ -22,10 +22,6 @@ const LabProducts = () => {
 		getCount();
 	}, [getCount]);
 
-	// React.useEffect(() => {
-	// 	console.log(tabsCount);
-	// }, [tabsCount]);
-
 	return (
 		<div className='w-full'>
 			<Navbar />
