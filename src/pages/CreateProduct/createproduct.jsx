@@ -47,7 +47,6 @@ export const CreateProduct = () => {
 
 	const onFinishFailed = (errorInfo) => {
 		message.error(`Form validation error!${errorInfo}`);
-		console.log('Failed:', errorInfo);
 	};
 
 	return (
@@ -266,7 +265,6 @@ export const CreateProduct = () => {
 
 const getSignedURL = async (file) => {
 	try {
-		console.log('file to be upload', file);
 		const url = await axiosConfig.post('/v1/product/image', {
 			file: {
 				name: file.name,
@@ -275,10 +273,8 @@ const getSignedURL = async (file) => {
 				uid: file.uid,
 			},
 		});
-		console.log('url', url.data);
 		return url.data;
 	} catch (error) {
-		console.log('Error', error);
 		return new Error('Error getting new URL', error);
 	}
 };
@@ -300,7 +296,6 @@ const customUpload = async ({ file, onSuccess, onError }) => {
 
 		if (response.status === 200) {
 			// Handle success, e.g., update UI or trigger other actions
-			console.log('Upload successful:', response);
 			onSuccess({
 				newName,
 			});

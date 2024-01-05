@@ -12,8 +12,6 @@ export const ProductsTable = ({ tab }) => {
 	const [page, setPage] = React.useState(1);
 
 	const onStatusChange = (id, key) => {
-		// const index = products.findIndex((product) => product.id === id);
-		console.log('Status change ', id);
 		const params = {
 			id,
 			active: !data[key].active,
@@ -26,12 +24,10 @@ export const ProductsTable = ({ tab }) => {
 		dispatch(updateProduct(params));
 	};
 
-	console.log('proudct', products);
-
 	React.useEffect(() => {
-		console.log('success', success);
 		if (success) {
 			message.success('Product updated!');
+			// change success to false
 		} else if (error) {
 			message.error('Failed to update product.');
 		}
@@ -48,8 +44,6 @@ export const ProductsTable = ({ tab }) => {
 	}, [page, dispatch, tab]);
 
 	const getData = React.useCallback(() => {
-		console.log('got product', products);
-
 		setData(products.map((product, index) => ({ ...product, key: index })));
 	}, [products]);
 

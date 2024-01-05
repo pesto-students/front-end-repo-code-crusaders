@@ -40,7 +40,7 @@ export const Register = () => {
 			email: values.email,
 			password: values.password,
 			doctor: {
-				name: values.clinicName,
+				hospital: values.clinicName,
 				regID: values.doctorId,
 			},
 			address: {

@@ -18,7 +18,6 @@ export const Login = () => {
 	const roleValue = useLocation();
 
 	useEffect(() => {
-		console.log('user', user);
 		if (user) {
 			if (user.role === 'doctor') {
 				navigate('/home', { successLogin: true });

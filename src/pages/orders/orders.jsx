@@ -84,7 +84,6 @@ const OrderCard = ({ order, className }) => {
 		return item;
 	});
 
-	console.log(order);
 	return (
 		<div
 			className={`w-2/3 m-auto cursor-pointer ${className}`}
