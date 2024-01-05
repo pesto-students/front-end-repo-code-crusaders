@@ -1,6 +1,6 @@
-### Denti Bridge
+## Denti Bridge
 
-## A common platform for communication between dentist and lab vendors and to ease out them.
+#### A common platform for communication between dentist and lab vendors and to ease out them.
 
 Tech Stack : Frontend(HTML, TailwindCSS, Antd, ReactJS, Amazon S3)
 
