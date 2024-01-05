@@ -7,11 +7,11 @@ import Star from '../../assets/landingPage/star.png';
 import Stethoscope from '../../assets/landingPage/stathoscope.png';
 import DoctorLayer from '../../assets/landingPage/doctor_layer.png';
 
-export const Doctor = () => {
+export const Doctor = ({ doctorRef }) => {
 	const navigate = useNavigate();
 
 	return (
-		<div className='flex w-full h-auto'>
+		<div className='flex w-full h-auto' id='doctor' ref={doctorRef}>
 			<div className='text-black w-5/12 flex flex-col justify-end text-start'>
 				<h1 className='w-2/3 mx-auto text-5xl'>
           Connecting Smiles With Precision: Your Dental Procurement Partner

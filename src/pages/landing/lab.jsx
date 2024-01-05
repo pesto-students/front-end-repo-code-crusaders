@@ -7,11 +7,11 @@ import Star from '../../assets/landingPage/star.png';
 import Stethoscope from '../../assets/landingPage/stathoscope.png';
 import LabLayer from '../../assets/landingPage/lab_layer.png';
 
-export const Lab = () => {
+export const Lab = ({ labRef }) => {
 	const navigate = useNavigate();
 
 	return (
-		<div className='flex w-full h-auto'>
+		<div className='flex w-full h-auto' id='lab' ref={labRef}>
 			<div className='flex justify-between w-7/12 my-10'>
 				<div className='z-0 flex justify-around w-full ms-1/2'>
 					<div className='flex flex-col ms-5'>

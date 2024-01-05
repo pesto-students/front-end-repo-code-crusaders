@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Layout, Space } from 'antd';
 import { useNavigate } from 'react-router';
 import { Navbar } from './navbar';
@@ -32,6 +32,14 @@ const contentStyle = {
 
 const Landing = () => {
 	const navigate = useNavigate();
+	const doctorRef = useRef();
+	const labRef = useRef();
+	const aboutRef = useRef();
+	const contactRef = useRef();
+
+	const scrollToSection = (ref) => {
+		ref.current.scrollIntoView({ behavior: 'smooth' });
+	};
 
 	return (
 		<Space
@@ -70,16 +78,21 @@ const Landing = () => {
 					</div>
 				</Header>
 				<Content style={contentStyle}>
-					<Navbar />
-					<Doctor />
+					<Navbar
+						category={{
+							doctorRef, labRef, aboutRef, contactRef
+						}}
+						scroll={scrollToSection}
+					/>
+					<Doctor doctorRef={doctorRef} />
 					<div className='m-20'></div>
-					<Lab />
+					<Lab labRef={labRef} />
 					<div className='m-32'></div>
 
 					{/* about us section --- */}
-					<States />
+					<States aboutRef={aboutRef} />
 					<Testimony />
-					<ContectUs />
+					<ContectUs contactRef={contactRef} />
 				</Content>
 				<Footer className='bg-[#E5E5EF] p-0'>
 					<FooterComp />

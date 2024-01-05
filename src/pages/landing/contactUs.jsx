@@ -16,9 +16,9 @@ const onFinishFailed = (errorInfo) => {
 	console.log('Failed:', errorInfo);
 };
 
-export const ContectUs = () => {
+export const ContectUs = ({ contactRef }) => {
 	return (
-		<div className='flex flex-row mb-20 mt-24'>
+		<div className='flex flex-row mb-20 mt-24' ref={contactRef}>
 			<div className='w-1/2'>
 				<div className='border-2 border-black rounded-2xl bg-[#E4FFD7] w-1/2 m-auto'>
 					<div className='flex flex-col px-10 py-5'>

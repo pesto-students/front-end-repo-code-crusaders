@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const States = () => {
+export const States = ({ aboutRef }) => {
 	return (
-		<div className='h-44 bg-[#E0F7DB] flex flex-col justify-center'>
+		<div className='h-44 bg-[#E0F7DB] flex flex-col justify-center' ref={aboutRef}>
 			<div className='flex justify-evenly w-1/2 mx-auto'>
 				<div className='flex flex-col text-black'>
 					<div className='text-black text-4xl font-bold'>12K+</div>
