@@ -14,7 +14,7 @@ const Orders = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const {
-		orders, loading, error, pagination
+		orders, loading, error, pagination,
 	} = useSelector((state) => state.order);
 	const [page, setPage] = React.useState(1);
 	const pageLimit = 20;

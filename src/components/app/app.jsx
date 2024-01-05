@@ -4,7 +4,7 @@ import { PublicRoute } from '../publicRoute';
 import {
 	Landing, NotFound,
 	Register, LabRegister, Login,
-	Home, Lab, Product, Orders, Labs,
+	Home, Lab, Product, Orders, Labs, Checkout,
 	CreateProduct, LabOrder, LabProducts,
 } from '../../pages';
 
@@ -27,6 +27,7 @@ function App() {
 					<Route path='/lab/products' element={<PrivateRoute component={LabProducts} allowedRoles={[ROLES.Lab]} />} />
 					<Route path='/orders' element={<PrivateRoute component={Orders} allowedRoles={[ROLES.Doctor]} />} />
 					<Route path='/lab/orders' element={<PrivateRoute component={LabOrder} allowedRoles={[ROLES.Lab]} />} />
+					<Route path='/checkout' exact element={<PrivateRoute component={Checkout} allowedRoles={[ROLES.Doctor]} />} />
 					{/* </Route> */}
 					<Route path='/dashboard'
 						element={<PrivateRoute component={Home} allowedRoles={[ROLES.Lab]} />} />
