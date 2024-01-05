@@ -15,7 +15,7 @@ export const getOrders = createAsyncThunk('orders', async (query, { rejectWithVa
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -27,7 +27,7 @@ export const getProductCount = createAsyncThunk('/lab/products/count', async (_,
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -39,7 +39,7 @@ export const createOrder = createAsyncThunk('order/create', async (body, { rejec
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -55,7 +55,7 @@ export const updatOrder = createAsyncThunk('/order/:orderId', async (body, { rej
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });

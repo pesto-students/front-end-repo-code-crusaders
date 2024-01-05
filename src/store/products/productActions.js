@@ -17,7 +17,7 @@ export const getProducts = createAsyncThunk('lab/products', async (query, { reje
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -29,7 +29,7 @@ export const getProductCount = createAsyncThunk('/lab/products/count', async (_,
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -42,7 +42,7 @@ export const getProduct = createAsyncThunk('lab/product/:productId', async (quer
 		return await response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -56,7 +56,7 @@ export const createProduct = createAsyncThunk('lab/product', async (body, { reje
 		return product;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
@@ -70,7 +70,7 @@ export const updateProduct = createAsyncThunk('/lab/product/:productID', async (
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });

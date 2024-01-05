@@ -4,12 +4,15 @@ import {
 	Button, Select, message, Table
 } from 'antd';
 import { updateProduct, getProducts } from '../../store/products/productActions';
+import { ProductDetailsModal } from './productDetailsModal';
 
 export const ProductsTable = ({ tab }) => {
+	const dispatch = useDispatch();
 	const { products, success, error } = useSelector((state) => state.product);
 	const [data, setData] = React.useState([]);
-	const dispatch = useDispatch();
 	const [page, setPage] = React.useState(1);
+	const [open, setOpen] = React.useState(false);
+	const [selectedProduct, setSelectedProduct] = React.useState(null);
 
 	const onStatusChange = (id, key) => {
 		const params = {
@@ -83,6 +86,18 @@ export const ProductsTable = ({ tab }) => {
 			title: 'price', dataIndex: 'price', align: 'right', render: (text) => <span> ₹ {text} </span>,
 		},
 		{
+			title: 'Rating',
+			dataIndex: 'rating',
+			align: 'center',
+			render: (text) => {
+				let rate = text;
+				if (!rate) {
+					rate = (Math.random() * 3).toFixed(2) + 2;
+				}
+				return <span> {rate} </span>;
+			}
+		},
+		{
 			title: 'Status',
 			dataIndex: 'active',
 			key: 'active',
@@ -93,8 +108,11 @@ export const ProductsTable = ({ tab }) => {
 			title: 'Details',
 			dataIndex: '_id',
 			align: 'center',
-			render: (text, collection) => <Button
-				onClick={() => console.log(text, collection)}
+			render: (_, collection) => <Button
+				onClick={() => {
+					setOpen(true);
+					setSelectedProduct(collection);
+				}}
 			> view Details </Button>,
 		},
 	];
@@ -121,6 +139,11 @@ export const ProductsTable = ({ tab }) => {
 				columns={columns}
 				dataSource={data}
 				pagination={pagination} />
+			<ProductDetailsModal
+				open={open}
+				setOpen={setOpen}
+				product={selectedProduct}
+			/>
 		</div>
 	);
 };

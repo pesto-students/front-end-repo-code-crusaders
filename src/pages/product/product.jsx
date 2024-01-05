@@ -1,18 +1,25 @@
 import {
-	Image, Card, Modal, Button, Spin, Form, Input
+	Image, Card, Modal, Button, Spin, Form, Input, message
 } from 'antd';
 import React, { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyRupee } from '@mui/icons-material';
 import { Navbar } from '../../components/navbar';
 import { getProduct } from '../../store/products/productActions';
 import { createOrder } from '../../store/order/orderAction';
+import { resetSuccess } from '../../store/order/orderSlice';
 
 const Product = () => {
 	const { productID } = useParams();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { loading, product } = useSelector((state) => state.product);
+	const {
+		loading, product
+	} = useSelector((state) => state.product);
+	const {
+		success, error
+	} = useSelector((state) => state.order);
 	const [open, setOpen] = useState(false);
 	const [specification, setSpecification] = useState('');
 
@@ -27,6 +34,18 @@ const Product = () => {
 			})
 		);
 	}, [dispatch, productID]);
+
+	React.useEffect(() => {
+		if (success) {
+			message.success('Order Placed sucessfully');
+			setTimeout(() => resetSuccess(), 3000);
+			navigate('/checkout', { state: { product } });
+		} else if (error) {
+			console.log('error', error);
+			message.error(`${error || 'failed placing order!'} please try again!`);
+			setTimeout(() => resetSuccess(), 3000);
+		}
+	}, [success, error, navigate, product]);
 
 	const makeOrder = () => {
 		const orderParam = {
@@ -81,7 +100,7 @@ const Product = () => {
 							>
 								<h4>{product.name}</h4>
 								<h3>
-									<span class="line-through text-gray-500">
+									<span className="line-through text-gray-500">
 										<CurrencyRupee className='p-0 text-gray-500 line-through'/>
 										{product.mrp}
 									</span>
@@ -128,7 +147,7 @@ const Product = () => {
 
 							<div className='flex space-x-4'>
 								<button className='docButton' onClick={makeOrder}> Order </button>
-								<Button className='docButton' onClick={showModal}> Fill Details </Button>
+								<Button className='docButton' onClick={showModal}> Extra Notes </Button>
 							</div>
 						</div>
 					</div>
@@ -173,6 +192,9 @@ const SpecificationModal = ({
 				onOk={handleOk}
 				confirmLoading={loading}
 				onCancel={handleCancel}
+				initialValues={{
+					notes: modalText
+				}}
 				footer={[
 					<Button key="back" onClick={handleCancel} className='docButton'>
             Return
@@ -188,7 +210,6 @@ const SpecificationModal = ({
 					>
 						<Input.TextArea
 							onChange={handleTextareaChange}
-							defaultValue={modalText}
 						/>
 					</Form.Item>
 				</Form>

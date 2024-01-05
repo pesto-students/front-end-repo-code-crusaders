@@ -10,6 +10,7 @@ export { Labs } from './labs';
 export { Lab } from './lab';
 export { Product } from './product';
 export { Orders } from './orders';
+export { Checkout } from './checkout';
 
 export { LabProducts } from './labProducts';
 export { LabOrder } from './labOrder';

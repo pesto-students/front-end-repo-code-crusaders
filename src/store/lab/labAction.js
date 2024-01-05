@@ -14,7 +14,7 @@ export const getLabs = createAsyncThunk('lab/products', async (query, { rejectWi
 		return response.data;
 	} catch (error) {
 		return rejectWithValue({
-			error: error.response.data ? error.response.message : error.message
+			error: error.response.data ? error.response.data.message : error.message
 		});
 	}
 });
