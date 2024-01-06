@@ -23,7 +23,7 @@ const Checkout = () => {
 				</div>
 				<div className='text-lg space-x-5 text-center flex'>
 					<button className='docButton' onClick={() => navigate('/labs')}>
-          shope More
+          Shop More
 					</button>
 					<button className='docButton' onClick={() => navigate('/home')}>
           Home
