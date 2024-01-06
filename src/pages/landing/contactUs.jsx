@@ -22,7 +22,7 @@ export const ContectUs = ({ contactRef }) => {
 			<div className='w-1/2'>
 				<div className='border-2 border-black rounded-2xl bg-[#E4FFD7] w-1/2 m-auto'>
 					<div className='flex flex-col px-10 py-5'>
-						<h1 className='text-black my-5 text-left'>Contect Us</h1>
+						<h1 className='text-black my-5 text-left'>Contact Us</h1>
 						<div className='mt-5'>
 							<Form
 								name='contactUs'
