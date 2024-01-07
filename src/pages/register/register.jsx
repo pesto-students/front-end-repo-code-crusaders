@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
 import { registerUser } from '../../store/auth/authActions';
+import { resetSuccess } from '../../store/auth/authSlice';
 
 export const Register = () => {
 	const dispatch = useDispatch();
@@ -27,9 +28,11 @@ export const Register = () => {
 	React.useEffect(() => {
 		if (success) {
 			message.success('Doctor Registered Successfully');
+			setTimeout(() => resetSuccess(), 3000);
 			navigate('/home');
 		} else if (error) {
-			message.error('Error Registering Doctor');
+			message.error(error || 'Error registering doctor');
+			setTimeout(() => resetSuccess(), 3000);
 		}
 	}, [error, success, navigate]);
 

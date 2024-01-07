@@ -11,6 +11,7 @@ import SecondaryLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
 import axiosConfig from '../../utils/axiosConfig';
 import { registerUser } from '../../store/auth/authActions';
+import { resetSuccess } from '../../store/auth/authSlice';
 
 const LabRegister = () => {
 	const dispatch = useDispatch();
@@ -32,9 +33,11 @@ const LabRegister = () => {
 	React.useEffect(() => {
 		if (success) {
 			message.success('Lab Registered Successfully');
+			setTimeout(() => resetSuccess(), 3000);
 			navigate('/lab/products');
 		} else if (error) {
-			message.error('Error Registering Lab');
+			message.error(error || 'Error Registering Lab');
+			setTimeout(() => resetSuccess(), 3000);
 		}
 	}, [error, success, navigate]);
 

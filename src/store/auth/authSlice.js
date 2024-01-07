@@ -36,6 +36,10 @@ const authSlice = createSlice({
 			localStorage.setItem('dentiUser', JSON.stringify(action.payload.user));
 			localStorage.setItem('userAccessToken', action.payload.access.token);
 			localStorage.setItem('userRefreshToken', action.payload.refresh.token);
+		},
+		resetSuccess: (state) => {
+			state.success = false;
+			state.error = null;
 		}
 	},
 	extraReducers: {
@@ -116,4 +120,4 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, resetSuccess } = authSlice.actions;

@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
-	Input, Button, Checkbox, Form
+	Input, Button, Checkbox, Form, message
 } from 'antd';
 import { loginUser } from '../../store/auth/authActions';
 import { errorToast } from '../../utils';
 import LabLogo from '../../assets/logo/bg_logo.png';
 import Logo from '../../assets/logo/nav_logo_black.png';
+import { resetSuccess } from '../../store/auth/authSlice';
 
 export const Login = () => {
-	const { user, loading } = useSelector((state) => state.auth);
+	const {
+		user, loading, success, error
+	} = useSelector((state) => state.auth);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const roleValue = useLocation();
@@ -26,6 +29,16 @@ export const Login = () => {
 			}
 		}
 	}, [navigate, user]);
+
+	useEffect(() => {
+		if (success) {
+			message.success('Logged In Successfully');
+			setTimeout(() => resetSuccess(), 3000);
+		} else if (error) {
+			message.error(error || 'Error Logging In');
+			setTimeout(() => resetSuccess(), 3000);
+		}
+	}, [error, success]);
 
 	const navigateSignup = () => {
 		if (roleValue.state?.role === 'lab') {
